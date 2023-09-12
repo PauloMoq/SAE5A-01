@@ -2,11 +2,9 @@
 
 ![Nom site a définir](https://cdn.discordapp.com/attachments/1092361026437120070/1151140081692839977/OIG.jpg)
 
-## Lien des consignes
-[lien des consignes]() A definir
-
 ## Chaîne applicative
 ![Chaîne applicative](https://cdn.discordapp.com/attachments/1092361026437120070/1151141655043379210/image.png)
+
 ## Langages utilisés ?
 
 + HTML5, CSS
@@ -22,3 +20,6 @@
 ![Recherche]() A ajouter
 
 ![Selection]() A ajouter
+
+## Lien des consignes d'utilisation et d'installation
+[lien des consignes]() A definir
