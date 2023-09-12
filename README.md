@@ -5,6 +5,8 @@
 ## Lien des consignes
 [lien des consignes]() A definir
 
+## Lien de la chaîne applicative
+![Chaîne applicative](https://cdn.discordapp.com/attachments/1092361026437120070/1151141655043379210/image.png)
 ## Langages utilisés ?
 
 + HTML5, CSS
