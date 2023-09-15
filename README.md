@@ -1,24 +1,25 @@
-# sae-musee
+# Bienvenue sur MUshroom PIe
 
-## Project setup
-```
-npm install
-```
+![Nom site a définir](https://cdn.discordapp.com/attachments/1092361026437120070/1151140081692839977/OIG.jpg)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Chaîne applicative
+![Chaîne applicative](https://cdn.discordapp.com/attachments/1092361026437120070/1151141655043379210/image.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Langages utilisés ?
 
-### Lints and fixes files
-```
-npm run lint
-```
++ HTML5, CSS
++ JavaScript, Node
++ Python, MySQL ( avec tables relationnelles )
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Screenshots 
+
+![Connexion]() A ajouter
+
+![Application]() A ajouter
+
+![Recherche]() A ajouter
+
+![Selection]() A ajouter
+
+## Lien des consignes d'utilisation et d'installation
+[lien des consignes]() A definir
