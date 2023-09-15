@@ -20,7 +20,7 @@
       </form>
       <div class="signup">
         <span class="signup">Tu as déjà un compte?
-         <label for="check">Se connecter</label>
+          <router-link to="/login"><label for="check">Se connecter</label></router-link>
         </span>
       </div>
     </div>

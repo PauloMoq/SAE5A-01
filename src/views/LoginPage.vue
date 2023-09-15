@@ -17,7 +17,7 @@
       </form>
       <div class="signup">
         <span class="signup">Tu n'as pas de compte?
-         <label for="check">S'inscrire</label>
+         <label for="check"><router-link to="/register">S'inscrire</router-link></label>
         </span>
       </div>
     </div>
