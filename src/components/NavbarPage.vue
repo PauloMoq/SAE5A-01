@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-accueil">
-      <router-link class="navbar-accueil" to="/accueil">Accueil</router-link>
+      <router-link class="navbar-link" to="/">Accueil</router-link>
     </div>
     <div class="navbar-links">
       <router-link class="navbar-link" v-if="!authenticated" to="/login">Connexion</router-link>
@@ -34,7 +34,9 @@ export default {
 /* Styles spécifiques à la navbar */
 .navbar-accueil{
   display: flex;
+  flex: 1;
   justify-content: flex-start;
+  margin-left: 10px;
 }
 .navbar {
   background-color: #004225; /* Couleur d'arrière-plan de la barre de navigation (personnalisez-la selon vos besoins) */
