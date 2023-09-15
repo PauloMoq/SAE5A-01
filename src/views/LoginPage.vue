@@ -12,7 +12,7 @@
           <img src="../assets/icon_cadena.png" alt="Icône mdp">
           <input type="password" placeholder="Entrez votre mot de passe">
         </div>
-        <a href="#">Mot de passe oublié?</a>
+        <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
         <input type="button" class="button" value="Se connecter">
       </form>
       <div class="signup">
