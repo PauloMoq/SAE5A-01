@@ -16,10 +16,10 @@
           <img src="../assets/icon_cadena.png" alt="Icône mdp">
           <input type="password" placeholder="Confirmez votre mot de passe">
         </div>
-        <input type="button" class="button" value="S'inscrire">
+        <input type="button" class="button" value="S'inscrire" @click="register()">
       </form>
       <div class="signup">
-        <span class="signup">Tu as déjà un compte?
+        <span class="signup">Tu as déjà un compte ?
           <router-link to="/login"><label for="check">Se connecter</label></router-link>
         </span>
       </div>
@@ -39,10 +39,13 @@ export default {
   methods: {
     register() {
       // Ajoutez ici la logique d'inscription, y compris la validation du mot de passe et de la confirmation.
-      if (this.password !== this.confirmPassword) {
-        alert("Le mot de passe et la confirmation du mot de passe ne correspondent pas.");
-        return;
-      }
+      /* if (this.password != this.confirmPassword) {
+        
+      } */
+      this.$swal({
+          text: "Le mot de passe n'est pas le même que celui dans le champ de confirmation.",
+          icon: 'error'
+      })
       // Le reste de la logique d'inscription...
     },
   },
