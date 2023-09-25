@@ -13,7 +13,7 @@
           <input type="password" placeholder="Entrez votre mot de passe">
         </div>
         <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
-        <input type="button" class="button" value="Se connecter">
+        <input type="button" class="button" id="send" value="Se connecter">
       </form>
       <div class="signup">
         <span class="signup">Tu n'as pas de compte?
@@ -120,6 +120,10 @@ body{
    border-top-left-radius: 0;
    border-bottom-left-radius: 0;
    outline: none;
+ }
+ #send {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
  }
  .form input:focus{
    box-shadow: 0 1px 0 rgba(0,0,0,0.2);

@@ -1,55 +1,55 @@
 <template>
-   <div class="container">
-    <input type="checkbox" id="check">
-    <div class="registration form">
-      <header>S'inscrire</header>
-      <form action="#">
-        <div class="input-container">
-          <img src="../assets/icon_mail.png" alt="Icône email">
-          <input type="text" placeholder="Entrez votre email">
-        </div>
-        <div class="input-container">
-          <img src="../assets/icon_cadena.png" alt="Icône mdp">
-          <input type="password" placeholder="Créez votre mot de passe">
-        </div>
-        <div class="input-container">
-          <img src="../assets/icon_cadena.png" alt="Icône mdp">
-          <input type="password" placeholder="Confirmez votre mot de passe">
-        </div>
-        <input type="button" class="button" value="S'inscrire">
-      </form>
-      <div class="signup">
-        <span class="signup">Tu as déjà un compte?
-          <router-link to="/login"><label for="check">Se connecter</label></router-link>
-        </span>
-      </div>
-    </div>
-  </div>
+  <div class="container">
+   <input type="checkbox" id="check">
+   <div class="registration form">
+     <header>S'inscrire</header>
+     <form @submit.prevent="register"> <!-- Utilisation de @submit.prevent pour intercepter la soumission du formulaire -->
+       <div class="input-container">
+         <img src="../assets/icon_mail.png" alt="Icône email">
+         <input type="text" placeholder="Entrez votre email" v-model="email"> <!-- Lien entre le champ email et la propriété email -->
+       </div>
+       <div class="input-container">
+         <img src="../assets/icon_cadena.png" alt="Icône mdp">
+         <input type="password" placeholder="Créez votre mot de passe" v-model="password"> <!-- Lien entre le champ mot de passe et la propriété password -->
+       </div>
+       <div class="input-container">
+         <img src="../assets/icon_cadena.png" alt="Icône mdp">
+         <input type="password" placeholder="Confirmez votre mot de passe" v-model="confirmPassword"> <!-- Lien entre le champ de confirmation de mot de passe et la propriété confirmPassword -->
+       </div>
+       <input type="submit" class="button" id="send" value="S'inscrire"> <!-- Utilisation de type="submit" pour déclencher la méthode register lors de la soumission -->
+     </form>
+     <div class="signup">
+       <span class="signup">Tu as déjà un compte?
+         <router-link to="/login"><label for="check">Se connecter</label></router-link>
+       </span>
+     </div>
+   </div>
+ </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: '',
-      confirmPassword: '', // Champ pour la confirmation du mot de passe
-    };
-  },
-  methods: {
-    register() {
-      // Ajoutez ici la logique d'inscription, y compris la validation du mot de passe et de la confirmation.
-      if (this.password !== this.confirmPassword) {
-        alert("Le mot de passe et la confirmation du mot de passe ne correspondent pas.");
-        return;
-      }
-      // Le reste de la logique d'inscription...
-    },
-  },
+ data() {
+   return {
+     email: '',
+     password: '',
+     confirmPassword: '',
+   };
+ },
+ methods: {
+   register() {
+     // La méthode register est appelée lors de la soumission du formulaire
+     // Vous pouvez ajouter la logique d'inscription ici
+     if (this.password !== this.confirmPassword) {
+       alert("Le mot de passe et la confirmation du mot de passe ne correspondent pas.");
+       return;
+     }
+     // Le reste de la logique d'inscription...
+   },
+ },
 };
 </script>
+
 
 <style scoped>
 .input-container {
@@ -114,6 +114,10 @@ body{
    border-top-left-radius: 0;
    border-bottom-left-radius: 0;
    outline: none;
+ }
+ #send {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
  }
  .form input:focus{
    box-shadow: 0 1px 0 rgba(0,0,0,0.2);

@@ -24,8 +24,8 @@ const routes = [
     component: Login // Utilisez la vue Register pour ce chemin
   },
   {
-    path: '/forgtPassword',
-    name: 'forgtPasswordPage',
+    path: '/forgotPassword',
+    name: 'forgotPasswordPage',
     component: PasswordPage // Utilisez la vue Register pour ce chemin
   }
   
