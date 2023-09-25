@@ -16,10 +16,10 @@
           <img src="../assets/icon_cadena.png" alt="Icône mdp">
           <input type="password" placeholder="Confirmez votre mot de passe">
         </div>
-        <input type="button" class="button" value="S'inscrire" @click="register()">
+        <input type="button" class="button" id="send" value="S'inscrire" @click="register()">
       </form>
       <div class="signup">
-        <span class="signup">Tu as déjà un compte?
+        <span class="signup">Tu as déjà un compte ?
           <router-link to="/login"><label for="check">Se connecter</label></router-link>
         </span>
       </div>
