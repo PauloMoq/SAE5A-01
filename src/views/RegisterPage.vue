@@ -16,7 +16,11 @@
           <img src="../assets/icon_cadena.png" alt="Icône mdp">
           <input type="password" placeholder="Confirmez votre mot de passe">
         </div>
+<<<<<<< Updated upstream
         <input type="button" class="button" value="S'inscrire">
+=======
+        <input type="button" class="button" id="send" value="S'inscrire" @click="register()">
+>>>>>>> Stashed changes
       </form>
       <div class="signup">
         <span class="signup">Tu as déjà un compte?
@@ -129,6 +133,10 @@ body{
 .form a:hover{
  text-decoration: underline;
 }
+#send {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+ }
 .form input.button{
  color: #000000;
  background: #ffcd00;
