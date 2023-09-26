@@ -1,5 +1,5 @@
 <template>
-  <img id="banner-image" src="../assets/Louvre-Museum-Paris.webp" alt="">
+  <div class="background"></div>
   <div class="home">
     <div class="hero">
       <div class="hero-content">
@@ -18,18 +18,28 @@ export default {
 
 <style scoped>
 /* Styles spécifiques à la page Home */
-#banner-image {
-  width: 100%; /* La largeur de l'image occupera 100% de la largeur de son conteneur */
-  height: auto; /* La hauteur s'ajustera automatiquement pour conserver les proportions d'origine de l'image */
-  object-fit: cover; /* L'image sera ajustée pour couvrir complètement le conteneur */
-  margin : 0;
+/* Appliquez un style au conteneur du bandeau */
+.background {
+    background-image: url('../assets/test.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place l'arrière-plan derrière les autres éléments */
 }
+
+/* Appliquez un style à l'image du bandeau */
 .home {
   text-align: left;
   padding: 40px;
 }
 
 .hero-content {
+  position: relative;
   max-width: 90%; /* Ajustez la largeur comme vous le souhaitez */
   margin: 0 auto;
 }

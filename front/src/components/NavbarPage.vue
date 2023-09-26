@@ -68,7 +68,7 @@ export default {
 }
 
 .navbar-link:hover {
-  color: #ffcd00; /* Couleur du texte des liens au survol (personnalisez-la selon vos besoins) */
+  color: #dcb253; /* Couleur du texte des liens au survol (personnalisez-la selon vos besoins) */
 }
 
 .logout-button {
