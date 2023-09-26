@@ -14,7 +14,8 @@
             "date_oeuvre": "",
             "auteur_oeuvre": "",
             "support_oeuvre": "",
-            "zonegeo_oeuvre": ""
+            "zonegeo_oeuvre": "",
+            "lien_oeuvre": ""
         }
     ]
 }
