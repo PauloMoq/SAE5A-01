@@ -1,6 +1,14 @@
 {
     "rq_user": "",
     "rq_nboeuvre": "",
+    "rq_arg": [
+        {
+            "date_debut": "",
+            "date_fin": "",
+            "zone_geo": "",
+            "support": ""
+        }
+    ]
     "rq_result": [
         {
             "date_oeuvre": "",
