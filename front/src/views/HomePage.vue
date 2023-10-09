@@ -30,6 +30,7 @@ export default {
     width: 100%;
     height: 100%;
     z-index: -1; /* Place l'arrière-plan derrière les autres éléments */
+    transform: scaleX(-1); /* Inverser horizontalement */
 }
 
 /* Appliquez un style à l'image du bandeau */
@@ -45,6 +46,7 @@ export default {
 }
 
 h1 {
+  margin-top: 30px;
   font-size: 70px;
   margin-bottom: 10px;
 }
