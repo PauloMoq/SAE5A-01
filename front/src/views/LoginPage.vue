@@ -1,27 +1,28 @@
 <template>
+  <div class="background"></div>
   <div class="container">
-    <input type="checkbox" id="check">
-    <div class="login form">
-      <header>Connexion</header>
-      <form action="#">
-        <div class="input-container">
-          <img src="../assets/icon_mail.png" alt="Icône email">
-          <input type="text" placeholder="Entrez votre email">
+      <input type="checkbox" id="check">
+      <div class="login form">
+        <header>Connexion</header>
+        <form action="#">
+          <div class="input-container">
+            <img src="../assets/icon_mail.png" alt="Icône email">
+            <input type="text" placeholder="Entrez votre email">
+          </div>
+          <div class="input-container">
+            <img src="../assets/icon_cadena.png" alt="Icône mdp">
+            <input type="password" placeholder="Entrez votre mot de passe">
+          </div>
+          <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
+          <input type="button" class="button" id="send" value="Se connecter">
+        </form>
+        <div class="signup">
+          <span class="signup">Tu n'as pas de compte?
+          <label for="check"><router-link to="/register">S'inscrire</router-link></label>
+          </span>
         </div>
-        <div class="input-container">
-          <img src="../assets/icon_cadena.png" alt="Icône mdp">
-          <input type="password" placeholder="Entrez votre mot de passe">
-        </div>
-        <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
-        <input type="button" class="button" id="send" value="Se connecter">
-      </form>
-      <div class="signup">
-        <span class="signup">Tu n'as pas de compte?
-         <label for="check"><router-link to="/register">S'inscrire</router-link></label>
-        </span>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -49,10 +50,39 @@ export default {
 </script>
 
 <style scoped>
+
+/* Appliquez un style à l'image du bandeau */ 
+/* Appliquez un style à l'image du bandeau */
+.background {
+    background-image: url('../assets/Louvre_Cour_Carree.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: fixed;
+    top: 0;
+    left: 300;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place l'arrière-plan derrière les autres éléments */
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 430px;
+    width: 100%;
+    background: rgba(0, 66, 37, 0.8); /* Couleur de fond semi-transparente avec flou */
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(7px); /* Effet de flou */
+}
+
 .input-container {
   display: flex; /* Utilisez flexbox pour aligner horizontalement */
   justify-content: center; /* Centre les éléments horizontalement */
-  background-color: #ffcd00;
+  background-color: #dcb253;
   height: 60px;
   margin-bottom: 20px;
   border-radius:10px;
@@ -65,28 +95,7 @@ export default {
   height: 30px;
   color : white;
 }
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-body{
-  min-height: 100vh;
-  width: 100%;
-  background: #009579;
-}
-.container{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  max-width: 430px;
-  width: 100%;
-  background: #004225;
-  border-radius: 7px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
+
 .container .registration{
   display: none;
 }
@@ -130,7 +139,7 @@ body{
  }
 .form a{
   font-size: 16px;
-  color: #ffcd00;
+  color: #dcb253;
   text-decoration: none;
 }
 .form a:hover{
@@ -141,7 +150,7 @@ body{
   margin-left:0px;
   color: #000000;
   border: none;
-  background: #ffcd00;
+  background: #dcb253;
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -150,7 +159,7 @@ body{
   transition: 0.4s;
 }
 .form input.button:hover{
-  background: #ffffff;
+  background: #f4d386;
 }
 .signup{
   font-size: 17px;
@@ -158,7 +167,7 @@ body{
   color : white;
 }
 .signup label{
-  color: #ffcd00;
+  color: #dcb253;
   cursor: pointer;
 }
 .signup label:hover{
