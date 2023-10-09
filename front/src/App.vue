@@ -1,4 +1,8 @@
 <template>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+  />
   <div id="app">
     <Navbar />
     <router-view />
@@ -7,6 +11,8 @@
 
 <script>
 import Navbar from './components/NavbarPage.vue';
+
+
 
 export default {
   name: 'App',

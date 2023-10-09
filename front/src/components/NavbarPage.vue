@@ -4,9 +4,9 @@
       <router-link class="navbar-link" to="/">Accueil</router-link>
     </div>
     <div class="navbar-links">
+      <router-link class="navbar-link" v-if="!authenticated" to="/search"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</router-link>
       <router-link class="navbar-link" v-if="!authenticated" to="/login">Connexion</router-link>
       <router-link class="navbar-link" v-if="!authenticated" to="/register">Inscription</router-link>
-      <router-link class="navbar-link" v-if="authenticated" to="/dashboard">Tableau de bord</router-link>
       <button v-if="authenticated" @click="logout" class="logout-button">Déconnexion</button>
     </div>
   </nav>
