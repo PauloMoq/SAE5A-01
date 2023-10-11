@@ -30,18 +30,21 @@ class MushroomPyApp(QFrame):
         super().__init__()
         self.download_thread = None
         self.buttonDL = None
-        self.btnCancel = None  
-        self.languageCombo = None  
-        self.languages = ['Français', 'Anglais', 'Espagnol', 'Allemand']  # Langues disponibles
-        self.currentLanguage = 'Français'  # Langue actuelle
+        self.btnCancel = None
+        self.languageCombo = None
+        self.languages = [
+            "Français",
+            "Anglais",
+            "Espagnol",
+            "Allemand",
+        ]  # Langues disponibles
+        self.currentLanguage = "Français"  # Langue actuelle
         self.backgroundColor = QColor(255, 255, 255)
         self.textButtonColor = QColor(13, 10, 11)
         self.bordureColor = QColor(0, 79, 45)
         self.buttonColor = QColor(220, 178, 83)
         self.destination = str(Path.home() / "Desktop")
-        self.downloading = (
-            False  
-        )
+        self.downloading = False
         self.initUI()
 
     def initUI(self):
@@ -137,7 +140,11 @@ class MushroomPyApp(QFrame):
         # Met à jour les textes des boutons en fonction de la langue
         self.btnOpenJson.setText(self.getTranslation("Open JSON"))
         self.btnChooseDir.setText(self.getTranslation("Choose Destination Folder"))
-        self.labelMessage.setText(self.getTranslation('Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'))
+        self.labelMessage.setText(
+            self.getTranslation(
+                'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
+            )
+        )
         self.labelResult.setText("")
         self.btnCancel.setText(self.getTranslation("Cancel"))
         self.entry.setPlaceholderText(self.getTranslation("Name of the .zip file"))
@@ -154,45 +161,68 @@ class MushroomPyApp(QFrame):
 
         - Fonction de traduction en fonction de la langue sélectionnée.
         """
-        if self.currentLanguage == 'Français':
-            return text
-        elif self.currentLanguage == 'Anglais':
-            if text == 'Open JSON':
-                return 'Open JSON'
-            elif text == 'Choose Destination Folder':
-                return 'Choose Destination Folder'
-            elif text == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder':
+        if self.currentLanguage == "Français":
+            if text == "Open JSON":
+                return "Ouvrir JSON"
+            elif text == "Choose Destination Folder":
+                return "Choisissez le dossier de destination"
+            elif (
+                text
+                == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
+            ):
+                return 'Consignes d\'utilisation:\n\n1- Entrez le nom souhaité pour votre fichier zip.\n2- Cliquez sur "OUVRIR JSON"\n3- Choisissez le dossier de destination'
+            elif text == "Cancel":
+                return "Annuler"
+            elif text == "Name of the .zip file":
+                return "Nom du fichier .zip"
+            else:
+                return text
+        elif self.currentLanguage == "Anglais":
+            if text == "Open JSON":
+                return "Open JSON"
+            elif text == "Choose Destination Folder":
+                return "Choose Destination Folder"
+            elif (
+                text
+                == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
+            ):
                 return 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
-            elif text == 'Cancel':
-                return 'Cancel'
-            elif text == 'Name of the .zip file':
-                return 'Name of the .zip file'
+            elif text == "Cancel":
+                return "Cancel"
+            elif text == "Name of the .zip file":
+                return "Name of the .zip file"
             else:
                 return text
-        elif self.currentLanguage == 'Espagnol':
-            if text == 'Open JSON':
-                return 'Abrir JSON'
-            elif text == 'Choose Destination Folder':
-                return 'Elegir carpeta de destino'
-            elif text == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder':
+        elif self.currentLanguage == "Espagnol":
+            if text == "Open JSON":
+                return "Abrir JSON"
+            elif text == "Choose Destination Folder":
+                return "Elegir carpeta de destino"
+            elif (
+                text
+                == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
+            ):
                 return 'Instrucciones:\n\n1- Ingrese el nombre deseado para su archivo zip.\n2- Haga clic en "ABRIR JSON"\n3- Elija la carpeta de destino'
-            elif text == 'Cancel':
-                return 'Cancelar'
-            elif text == 'Name of the .zip file':
-                return 'Nombre del archivo .zip'
+            elif text == "Cancel":
+                return "Cancelar"
+            elif text == "Name of the .zip file":
+                return "Nombre del archivo .zip"
             else:
                 return text
-        elif self.currentLanguage == 'Allemand':
-            if text == 'Open JSON':
-                return 'JSON öffnen'
-            elif text == 'Choose Destination Folder':
-                return 'Zielordner auswählen'
-            elif text == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder':
+        elif self.currentLanguage == "Allemand":
+            if text == "Open JSON":
+                return "JSON öffnen"
+            elif text == "Choose Destination Folder":
+                return "Zielordner auswählen"
+            elif (
+                text
+                == 'Instructions:\n\n1- Enter the desired name for your zip file.\n2- Click "OPEN JSON"\n3- Choose the destination folder'
+            ):
                 return 'Anleitung:\n\n1- Geben Sie den gewünschten Namen für Ihre Zip-Datei ein.\n2- Klicken Sie auf "JSON ÖFFNEN"\n3- Wählen Sie den Zielordner aus'
-            elif text == 'Cancel':
-                return 'Abbrechen'
-            elif text == 'Name of the .zip file':
-                return 'Name der .zip-Datei'
+            elif text == "Cancel":
+                return "Abbrechen"
+            elif text == "Name of the .zip file":
+                return "Name der .zip-Datei"
             else:
                 return text
 
