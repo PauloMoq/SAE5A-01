@@ -12,18 +12,18 @@ from PyQt6.QtWidgets import (
     QProgressBar,
     QFrame,
 )
-import requests
-from zipfile import ZipFile
 import os
 import json
-from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QIcon
+from DownloadThread import DownloadThread
 
 
 class MushroomPyApp(QFrame):
     def __init__(self):
         super().__init__()
+        self.download_thread = None
         self.buttonDL = None
+        self.btnCancel = None  # Ajout du bouton d'annulation
         self.backgroundColor = QColor(255, 255, 255)
         self.textButtonColor = QColor(13, 10, 11)
         self.bordureColor = QColor(0, 79, 45)
@@ -76,11 +76,13 @@ class MushroomPyApp(QFrame):
         self.progressBar = QProgressBar(self)
         self.progressBar.setValue(0)
 
-        # self.btnCancel = QPushButton("Annuler", self)
-        # self.btnCancel.clicked.connect(self.cancelDownload)
-        # self.btnCancel.setStyleSheet(
-        #    f"background-color: {self.buttonColor.name()}; color: {self.textButtonColor.name()}; border: 2px solid {self.bordureColor.name()};"
-        # )
+        # Ajout du bouton d'annulation
+        self.btnCancel = QPushButton("Annuler", self)
+        self.btnCancel.clicked.connect(self.cancelDownload)
+        self.btnCancel.setStyleSheet(
+            f"background-color: {self.buttonColor.name()}; color: {self.textButtonColor.name()}; border: 2px solid {self.bordureColor.name()};"
+        )
+        self.btnCancel.hide()
 
         # Disposition des éléments
         layout = QVBoxLayout(self)
@@ -90,10 +92,10 @@ class MushroomPyApp(QFrame):
         layout.addWidget(self.labelMessage)
         layout.addWidget(self.labelResult)
         layout.addWidget(self.progressBar)
-        # layout.addWidget(self.btnCancel)
+        layout.addWidget(self.btnCancel)
 
         self.progressBar.hide()
-        # self.btnCancel.hide()
+        self.btnCancel.hide()
 
     def openJson(self):
         filepath, _ = QFileDialog.getOpenFileName(
@@ -111,12 +113,11 @@ class MushroomPyApp(QFrame):
             if item.widget() and item.widget().text() == "Télécharger les images":
                 item.widget().deleteLater()
 
-    # def cancelDownload(self):
-    #    self.labelResult.setText("Téléchargement annulé.")
-    #    self.progressBar.hide()  # Cacher la barre de progression
-    #    self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
-    #    self.buttonDL.setEnabled(False)  # Désactiver le bouton de téléchargement
-    #    self.downloading = False  # Marquer comme étant non en cours de téléchargement
+    def cancelDownload(self):
+        if self.download_thread is not None and self.download_thread.isRunning():
+            self.download_thread.stop()
+            self.labelResult.setText("Téléchargement annulé.")
+            self.progressBar.hide()
 
     def chooseDestination(self):
         default_dir = str(Path.home() / "Desktop")  # Obtient le chemin vers le bureau
@@ -146,14 +147,16 @@ class MushroomPyApp(QFrame):
                 json_data, os.path.join(self.destination, self.entry.text() + ".zip")
             )
         )
-
+        self.buttonDL.setStyleSheet(
+            f"background-color: {self.buttonColor.name()}; color: {self.textButtonColor.name()}; border: 2px solid {self.bordureColor.name()};"
+        )
         layout = self.layout()
         layout.addWidget(self.buttonDL)
 
-        #    self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
+        self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
         self.downloading = True  # Marquer comme étant en cours de téléchargement
 
-    #    self.btnCancel.show()  # Montrer le bouton "Annuler
+        self.btnCancel.show()  # Montrer le bouton "Annuler
 
     def isValidInput(self, input_string):
         return input_string.isalnum()
@@ -165,33 +168,27 @@ class MushroomPyApp(QFrame):
             )
             return
 
-        total_images = len(json_data["rq_result"])
-        progress_step = 100 / total_images
+        self.labelResult.setText("Téléchargement en cours...")
+        self.progressBar.show()
+        self.progressBar.setValue(0)
 
-        with ZipFile(zip_filename, "w") as zipf:
-            for i, item in enumerate(json_data["rq_result"]):
-                if not self.downloading:
-                    break  # Si le téléchargement a été annulé, arrêtez le téléchargement
+        self.btnCancel.setEnabled(True)  # Activer le bouton "Annuler"
 
-                url = item["lien_oeuvre"]
-                response = requests.get(url)
-                image_data = response.content
-                nomfic = self.entry.text() + "_"
-                nomfic += item["auteur_oeuvre"] + "_" + item["date_oeuvre"] + "_"
-                if item["support_oeuvre"] != "":
-                    nomfic += item["support_oeuvre"] + "_"
-                if item["zonegeo_oeuvre"] != "":
-                    nomfic += item["zonegeo_oeuvre"] + "_"
-                nomfic += ".jpg"
-                filename = os.path.join(self.destination, os.path.basename(nomfic))
-                with open(filename, "wb") as image_file:
-                    image_file.write(image_data)
-                zipf.write(filename, os.path.basename(nomfic))
-                os.remove(filename)
-                self.progressBar.setValue(int((i + 1) * progress_step))
-        # self.downloading = False  # Marquer comme étant non en cours de téléchargement
-        # self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
-        # self.btnCancel.hide()  # Cacher le bouton "Annuler"
+        self.download_thread = DownloadThread(
+            json_data, self.destination, zip_filename, self.entry.text()
+        )
+        self.download_thread.progress_updated.connect(self.updateProgressBar)
+        self.download_thread.start()
+
+    def updateProgressBar(self, value):
+        self.progressBar.setValue(value)
+
+    def cancelDownload(self):
+        if self.download_thread is not None and self.download_thread.isRunning():
+            self.download_thread.stop()
+            self.labelResult.setText("Téléchargement annulé.")
+            self.progressBar.hide()
+            self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
 
 
 if __name__ == "__main__":
