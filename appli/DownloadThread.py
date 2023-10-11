@@ -5,9 +5,34 @@ import os
 
 
 class DownloadThread(QThread):
+    """
+    Thread de téléchargement d'images.
+
+    Attributes:
+        progress_updated (pyqtSignal): Signal émis lors de la mise à jour de la progression.
+
+    Methods:
+        __init__(self, json_data, destination, zip_filename, entry_text):
+            Initialise le thread de téléchargement.
+
+        run(self):
+            Exécute le téléchargement des images.
+
+        stop(self):
+            Arrête le téléchargement en cours.
+    """
     progress_updated = pyqtSignal(int)
 
     def __init__(self, json_data, destination, zip_filename, entry_text):
+        """
+        Initialise le thread de téléchargement.
+
+        Args:
+            json_data (dict): Les données JSON contenant les URL des images.
+            destination (str): Le chemin du dossier de destination.
+            zip_filename (str): Le nom du fichier .zip de sortie.
+            entry_text (str): Le texte d'entrée pour le nom du fichier.
+        """
         super().__init__()
         self.json_data = json_data
         self.destination = destination
@@ -16,6 +41,13 @@ class DownloadThread(QThread):
         self.running = True
 
     def run(self):
+        """
+        Exécute le téléchargement des images.
+
+        - Télécharge les images à partir des URLs fournies dans les données JSON.
+        - Crée un fichier .zip contenant les images téléchargées.
+        - Signale la progression via le signal 'progress_updated'.
+        """
         total_images = len(self.json_data["rq_result"])
         progress_step = 100 / total_images
 
@@ -42,4 +74,9 @@ class DownloadThread(QThread):
                 self.progress_updated.emit(int((i + 1) * progress_step))
 
     def stop(self):
+        """
+        Arrête le téléchargement en cours.
+
+        - Met fin à l'exécution du thread.
+        """
         self.running = False
