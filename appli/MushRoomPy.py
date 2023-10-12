@@ -2,12 +2,10 @@ import sys
 from pathlib import Path
 from PyQt6.QtWidgets import (
     QApplication,
-    QMainWindow,
     QPushButton,
     QLineEdit,
     QLabel,
     QVBoxLayout,
-    QWidget,
     QFileDialog,
     QProgressBar,
     QFrame,
@@ -260,7 +258,7 @@ class MushroomPyApp(QFrame):
         """
         if self.download_thread is not None and self.download_thread.isRunning():
             self.download_thread.stop()
-            self.labelResult.setText("Téléchargement annulé.")
+            self.labelResult.setText("STOP.")
             self.progressBar.hide()
 
     def chooseDestination(self):
@@ -377,7 +375,7 @@ class MushroomPyApp(QFrame):
         """
         if self.download_thread is not None and self.download_thread.isRunning():
             self.download_thread.stop()
-            self.labelResult.setText("Téléchargement annulé.")
+            self.labelResult.setText("STOP.")
             self.progressBar.hide()
             self.btnCancel.setEnabled(False)  # Désactiver le bouton "Annuler"
 
