@@ -62,7 +62,14 @@
       <option value="">lier à la BDD</option>
     </select>
 
-    <button @click="getData" class="search-button">Rechercher</button>
+    <button @click="afficherModal" class="search-button">Rechercher</button>
+
+    <!-- Boîte modale -->
+    <div id="myModal" class="modal">
+        <p>Voici votre JSON : </p>
+        <img src="../assets/logo_json.png" alt="Aperçu du fichier JSON">
+        <button onclick="telechargerJSON()">Télécharger</button>
+      </div>
   </div>
   </div>
 </template>
@@ -118,6 +125,22 @@ export default {
         this.selectedSupports.splice(index, 1);
       }
     },
+    afficherModal(event) {
+      var modal = document.getElementById('myModal');
+      modal.style.display = 'block'; 
+
+      // Empêcher la propagation de l'événement pour éviter la fermeture du modal
+      event.stopPropagation();
+    },
+    telechargerJSON() {
+      alert('Téléchargement du JSON...');
+    },
+    fermerModalSiClicExterieur(event) {
+      var modal = document.getElementById('myModal');
+      if (event.target !== modal && !modal.contains(event.target)) {
+        modal.style.display = 'none';
+      }
+    },
     getData() {
       // Récupérer la liste des auteurs actuellement sélectionnés
       const authors = this.selectedAuthors;
@@ -135,11 +158,39 @@ export default {
         alert("Pas d'auteurs")
       }
     }
+  },
+  mounted() {
+    // Attachez l'événement de fermeture de la modal à la fenêtre lorsque le composant est monté
+    window.onclick = this.fermerModalSiClicExterieur;
   }
 };
+
+
 </script>
 
 <style scoped>
+#myModal {
+  display: none;
+  width: 400px;
+  background: rgba(0, 66, 37, 0.8); /* Couleur de fond semi-transparente avec flou */
+  height: 200px;
+  border-radius: 20px;
+  color: white;
+  margin-left:450px;
+  margin-top: 200px;
+}
+#myModal img {
+  width: 80px;
+  height: 80px;
+}
+#myModal button {
+  display: block;
+  margin: auto;
+  margin-top:10px;
+}
+#myModal p {
+  margin-top:10px;
+}
 .background {
     background-image: url('../assets/searchpage.jpg');
     background-size: cover;
@@ -329,5 +380,7 @@ li {
   transition: 0.4s;
   background-color: #dcb253;
 }
+
+
 
 </style>
