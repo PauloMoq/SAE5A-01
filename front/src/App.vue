@@ -1,12 +1,16 @@
 <template>
-  <link
+  <div>
+    <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
   />
-  <div id="app">
+    <div id="app">
     <Navbar />
     <router-view />
   </div>
+  </div>
+  
+  
 </template>
 
 <script>
