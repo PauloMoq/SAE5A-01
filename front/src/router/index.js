@@ -3,9 +3,9 @@ import Home from '../views/HomePage.vue'
 import Register from '../views/RegisterPage.vue'
 import Login from '../views/LoginPage.vue'
 import PasswordPage from '../views/PasswordPage.vue'
+import SearchPage from '../views/SearchPage.vue'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-// import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const routes = [
   {
@@ -21,14 +21,18 @@ const routes = [
   {
     path: '/login',
     name: 'LoginPage',
-    component: Login // Utilisez la vue Register pour ce chemin
+    component: Login // Utilisez la vue Login pour ce chemin
   },
   {
     path: '/forgotPassword',
     name: 'forgotPasswordPage',
-    component: PasswordPage // Utilisez la vue Register pour ce chemin
+    component: PasswordPage // Utilisez la vue PasswordPage pour ce chemin
+  },
+  {
+    path: '/search',
+    name: 'SearchPage',
+    component: SearchPage // Utilisez la vue SearchPage pour ce chemin
   }
-  
 ]
 
 const router = createRouter({

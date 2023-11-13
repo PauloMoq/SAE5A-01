@@ -1,10 +1,12 @@
 <template>
-  <div class="background"></div>
-  <div class="home">
-    <div class="hero">
-      <div class="hero-content">
-        <h1>Bienvenue sur notre site</h1>
-        <p>La meilleure expérience culturelle vous attend.</p>
+  <div>
+    <div class="background"></div>
+    <div class="home">
+      <div class="hero">
+        <div class="hero-content">
+          <h1>Bienvenue sur notre site</h1>
+          <p>La meilleure expérience culturelle vous attend.</p>
+        </div>
       </div>
     </div>
   </div>
