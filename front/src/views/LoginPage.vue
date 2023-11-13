@@ -161,7 +161,7 @@ export default {
   transition: 0.4s;
 }
 .form input.button:hover{
-  background: #f4d386;
+  background: #ffde92;
 }
 .signup{
   font-size: 17px;
