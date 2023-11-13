@@ -1,0 +1,71 @@
+use Mush
+db.createCollection("User", {
+  validator: {
+    $jsonSchema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+		    username: {
+          type: "string"
+        },
+        password: {
+          type: "string"
+        }
+      },
+      required: ["id", "username", "password"]
+    }
+  }
+})
+
+db.createCollection("JSON", {
+  validator: {
+    $jsonSchema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        nb_oeuvres: {
+          type: "integer"
+        },
+        rq_result: {
+          type: "array",
+          items: {
+            type: "string", #date_oeuvre
+            type: "string", #auteur_oeuvre
+            type: "string", #support_oeuvre
+            type: "string", #zonegeo_oeuvre
+            type: "string"  #lien_oeuvre
+          }
+        }
+      },
+      required: ["id", "nb_oeuvres", "rq_result"]
+    }
+  }
+})
+
+db.createCollection("Request", {
+  validator: {
+    $jsonSchema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        rq_arg: {
+          type: "array",
+          items: {
+            type: "string", #date_debut
+            type: "string", #date_fin
+            type: "string", #artiste
+            type: "string", #zonegeo
+            type: "string"  #support
+          }
+        }
+      },
+      required: ["id", "rq_arg"]
+    }
+  }
+})

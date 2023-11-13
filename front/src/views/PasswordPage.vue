@@ -8,7 +8,7 @@
           <img src="../assets/icon_mail.png" alt="Icône email">
           <input type="text" placeholder="Entrez votre email">
         </div>
-        <input type="button" class="button" id="send" value="Envoyez un mail">
+        <input type="button" class="button" id="send" value="Envoyez un email">
       </form>
       <div class="login">
         <span class="login">Tu souhaite te connecter ?

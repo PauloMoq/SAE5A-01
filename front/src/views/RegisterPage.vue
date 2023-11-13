@@ -1,4 +1,5 @@
 <template>
+   <div class="background"></div>
    <div class="container">
     <input type="checkbox" id="check">
     <div class="registration form">
@@ -55,10 +56,23 @@ export default {
 
 
 <style scoped>
+.background {
+    background-image: url('../assets/Louvre_Cour_Carree.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: fixed;
+    top: 0;
+    left: 300;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place l'arrière-plan derrière les autres éléments */
+}
+
 .input-container {
  display: flex; /* Utilisez flexbox pour aligner horizontalement */
  justify-content: center; /* Centre les éléments horizontalement */
- background-color: #ffcd00;
+ background-color: #dcb253;
  height: 60px;
  margin-bottom: 20px;
  border-radius:10px;
@@ -82,16 +96,17 @@ body{
  width: 100%;
  background: #009579;
 }
-.container{
- position: absolute;
- top: 50%;
- left: 50%;
- transform: translate(-50%,-50%);
- max-width: 430px;
- width: 100%;
- background: #004225;
- border-radius: 7px;
- box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 430px;
+    width: 100%;
+    background: rgba(0, 66, 37, 0.8); /* Couleur de fond semi-transparente avec flou */
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(7px); /* Effet de flou */
 }
 #check{
  display: none;
@@ -135,7 +150,7 @@ body{
 }
 .form input.button{
  color: #000000;
- background: #ffcd00;
+ background: #dcb253;
  border: none;
  font-size: 1.2rem;
  font-weight: 500;
@@ -153,7 +168,7 @@ body{
  color : white;
 }
 .signup label{
- color: #ffcd00;
+ color: #dcb253;
  cursor: pointer;
 }
 .signup label:hover{

@@ -1,0 +1,5 @@
+Intervalle de date : Date de début + date de fin
+Nom de l'auteur (pas le prénom)
+Support technique (si précisé | lettre/peinture/dessin/gravures)
+Zone géographique (si précisé)
+
