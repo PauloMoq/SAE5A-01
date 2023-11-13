@@ -205,46 +205,49 @@ h1 {
 
 select {
   position: absolute;
-  top:475px;
+  top:482px;
   left:70px;
   border-radius: 5px;
 }
 #DateDebut {
   position: absolute;
-  top:475px;
-  left:340px;
+  top:478px;
+  left: 300px;
 }
 #startDate {
   position: absolute;
   top:470px;
-  left:550px;
+  left:510px;
+  font-size: 19px;
+
 }
 #endDate {
   position: absolute;
   top:470px;
-  left:850px;
+  left:870px;
+  font-size: 19px;
 }
 #DateFin {
   position: absolute;
-  top:475px;
-  left:685px;
+  top:478px;
+  left:695px;
 }
 #horloge1 {
   position: absolute;
   top:455px;
-  left:805px
+  left:818px
 }
 #horloge2 {
   position: absolute;
   top:455px;
-  left:503px
+  left:461px
 }
 .date-filter img{
  margin-top:15px;
  margin-right: 8px;
  margin-left:10px;
- width: 37px;
- height: 36px;
+ width: 42px;
+ height: 42px;
  color : white;
  background-color: #dcb253;
  border-top-left-radius: 5px;
