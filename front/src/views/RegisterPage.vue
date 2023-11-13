@@ -1,28 +1,30 @@
 <template>
-   <div class="background"></div>
-   <div class="container">
-    <input type="checkbox" id="check">
-    <div class="registration form">
-      <header>S'inscrire</header>
-      <form action="#">
-        <div class="input-container">
-          <img src="../assets/icon_mail.png" alt="Icône email">
-          <input type="text" placeholder="Entrez votre email">
+  <div>
+    <div class="background"></div>
+    <div class="container">
+      <input type="checkbox" id="check">
+      <div class="registration form">
+        <header>S'inscrire</header>
+        <form action="#">
+          <div class="input-container">
+            <img src="../assets/icon_mail.png" alt="Icône email">
+            <input type="text" placeholder="Entrez votre email">
+          </div>
+          <div class="input-container">
+            <img src="../assets/icon_cadena.png" alt="Icône mdp">
+            <input type="password" placeholder="Créez votre mot de passe">
+          </div>
+          <div class="input-container">
+            <img src="../assets/icon_cadena.png" alt="Icône mdp">
+            <input type="password" placeholder="Confirmez votre mot de passe">
+          </div>
+          <input type="button" class="button" id="send" value="S'inscrire" @click="register()">
+        </form>
+        <div class="signup">
+          <span class="signup">Tu as déjà un compte ?
+            <router-link to="/login"><label for="check">Se connecter</label></router-link>
+          </span>
         </div>
-        <div class="input-container">
-          <img src="../assets/icon_cadena.png" alt="Icône mdp">
-          <input type="password" placeholder="Créez votre mot de passe">
-        </div>
-        <div class="input-container">
-          <img src="../assets/icon_cadena.png" alt="Icône mdp">
-          <input type="password" placeholder="Confirmez votre mot de passe">
-        </div>
-        <input type="button" class="button" id="send" value="S'inscrire" @click="register()">
-      </form>
-      <div class="signup">
-        <span class="signup">Tu as déjà un compte ?
-          <router-link to="/login"><label for="check">Se connecter</label></router-link>
-        </span>
       </div>
     </div>
   </div>

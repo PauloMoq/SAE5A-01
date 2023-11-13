@@ -1,6 +1,7 @@
 <template>
-  <div class="background"></div>
-  <div class="container">
+  <div>
+    <div class="background"></div>
+    <div class="container">
       <input type="checkbox" id="check">
       <div class="login form">
         <header>Connexion</header>
@@ -23,6 +24,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -159,7 +161,7 @@ export default {
   transition: 0.4s;
 }
 .form input.button:hover{
-  background: #f4d386;
+  background: #ffde92;
 }
 .signup{
   font-size: 17px;
