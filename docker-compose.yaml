@@ -8,16 +8,28 @@ services:
     volumes:
       - mongodb_data:/data/db
 
-  nodejs-express-app:
-    image: node:latest
-    container_name: nodejs-express-app
+  node-express:
+    image: node:14
+    container_name: node-express
     working_dir: /app
     volumes:
-      - ./path/to/your/nodejs/app:/app  
+      - ./app:/app
     ports:
-      - "3200:3200"  
-    depends_on:
-      - mongodb
-
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://localhost:27017
+        labels:
+      - traefik.enable=true
+      - traefik.http.routers.mushroompy.entryPoints=websecure 
+      - traefik.http.routers.mushroompy.rule=Host(`mushroompy.jrcandev.netlib.re`)
+      - traefik.http.routers.mushroompy.tls=true  
+      - traefik.http.routers.mushroompy.tls.certresolver=myresolver
 volumes:
   mongodb_data:
+
+networks:
+  web:
+    external: true
+  lan:
+    external: false
+    name: lan_mushroompy
