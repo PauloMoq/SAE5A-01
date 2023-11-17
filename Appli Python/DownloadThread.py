@@ -1,6 +1,6 @@
 import requests
 from zipfile import ZipFile
-from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal
 import os
 
 
@@ -21,6 +21,7 @@ class DownloadThread(QThread):
         stop(self):
             Arrête le téléchargement en cours.
     """
+
     progress_updated = pyqtSignal(int)
 
     def __init__(self, json_data, destination, zip_filename, entry_text):
@@ -51,27 +52,51 @@ class DownloadThread(QThread):
         total_images = len(self.json_data["rq_result"])
         progress_step = 100 / total_images
 
-        with ZipFile(self.zip_filename, "w") as zipf:
-            for i, item in enumerate(self.json_data["rq_result"]):
-                if not self.running:
-                    break
+        # Liste pour stocker les noms des fichiers téléchargés
+        downloaded_files = []
 
-                url = item["lien_oeuvre"]
-                response = requests.get(url)
-                image_data = response.content
-                nomfic = self.entry_text + "_"
-                nomfic += item["auteur_oeuvre"] + "_" + item["date_oeuvre"] + "_"
-                if item["support_oeuvre"] != "":
-                    nomfic += item["support_oeuvre"] + "_"
-                if item["zonegeo_oeuvre"] != "":
-                    nomfic += item["zonegeo_oeuvre"] + "_"
-                nomfic += ".jpg"
-                filename = os.path.join(self.destination, os.path.basename(nomfic))
-                with open(filename, "wb") as image_file:
-                    image_file.write(image_data)
-                zipf.write(filename, os.path.basename(nomfic))
-                os.remove(filename)
-                self.progress_updated.emit(int((i + 1) * progress_step))
+        for i, item in enumerate(self.json_data["rq_result"]):
+            if not self.running:
+                break
+
+            url = item["lien_oeuvre"]
+            response = requests.get(url)
+            image_data = response.content
+
+            nomfic = self.entry_text + "_"
+            nomfic += item["auteur_oeuvre"] + "_" + item["date_oeuvre"] + "_"
+            if item["support_oeuvre"] != "":
+                nomfic += item["support_oeuvre"] + "_"
+            if item["zonegeo_oeuvre"] != "":
+                nomfic += item["zonegeo_oeuvre"] + "_"
+            nomfic += ".jpg"
+
+            # Vérifier si le fichier existe déjà, si oui, incrémenter le nom
+            base_filename, file_extension = os.path.splitext(nomfic)
+            counter = 1
+            while os.path.exists(os.path.join(self.destination, nomfic)):
+                nomfic = f"{base_filename}({counter}){file_extension}"
+                counter += 1
+
+            filename = os.path.join(self.destination, nomfic)
+            with open(filename, "wb") as image_file:
+                image_file.write(image_data)
+
+            # Ajouter le nom du fichier à la liste des fichiers téléchargés
+            downloaded_files.append(nomfic)
+
+            self.progress_updated.emit(int((i + 1) * progress_step))
+
+        # Créer l'archive ZIP après avoir téléchargé toutes les images
+        with ZipFile(self.zip_filename, "w") as zipf:
+            for downloaded_file in downloaded_files:
+                file_path = os.path.join(self.destination, downloaded_file)
+                zipf.write(file_path, os.path.basename(downloaded_file))
+
+        # Supprimer les fichiers locaux après la création de l'archive ZIP
+        for downloaded_file in downloaded_files:
+            file_path = os.path.join(self.destination, downloaded_file)
+            os.remove(file_path)
 
     def stop(self):
         """
