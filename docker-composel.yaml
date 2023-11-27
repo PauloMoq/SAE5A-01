@@ -11,7 +11,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MONGO_URI: mongodb://mongodb:27017/Mush
+      MONGO_URI: mongodb://mongodb:27017
     command: bash -c "npm install && npm start"
     networks:
       - web
