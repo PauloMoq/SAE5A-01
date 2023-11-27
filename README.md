@@ -6,7 +6,8 @@
 Cette application a pour but de permettre à tout public de récupérer des oeuvres d'arts depuis les bases de données de musées et cela, sur un seul et même site.
 
 ## Chaîne applicative
-![Chaîne applicative](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/ChaineAppli.png)
++ Cliquez pour Zoomer
+[![Chaîne applicative](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/ChaineAppli.png)](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/ChaineAppliGrandFormat.png)
 
 ## Langages utilisés ?
 
