@@ -41,6 +41,7 @@ services:
       - traefik.http.routers.mushroompy.rule=Host(`mushroompy.jrcandev.netlib.re`)
       - traefik.http.routers.mushroompy.tls=true
       - traefik.http.routers.mushroompy.tls.certresolver=myresolver
+      - traefik.http.services.mushroompy.loadbalancer.server.port=8080
     networks:
       - web
       - lan
