@@ -1,47 +1,54 @@
-version: '3.8'
+version: '3'
 
 services:
   # Service Node.js avec Express pour le backend
   backend:
-    image: node:18
-    container_name: backend-container
-    working_dir: /app/backend
+    image: node:18  # Utilise l'image Node.js version 18
+    container_name: backend-container  # Nomme le conteneur backend-container
+    working_dir: /app/backend  # Répertoire de travail dans le conteneur
     volumes:
-      - ./backend:/app/backend  # Monte le répertoire local ./backend dans le conteneur à /app/backend
+      - ./backend:/app/backend  # Montage du dossier local dans le conteneur
     ports:
-      - "3000:3000"  # Fait correspondre le port local 3000 au port du conteneur 3000
+      - "3000:3000"  # Mappe le port 3000 du conteneur au port 3000 de l'hôte
     environment:
-      MONGO_URI: mongodb://mongodb-container:27017  # Définis l'URL de connexion à MongoDB
-    command: bash -c "npm install && npm start"  # Commande à exécuter lors du démarrage du conteneur
-    depends_on:
-      - mongodb  
+      MONGO_URI: mongodb://mongodb:27017  # Variable d'environnement pour l'URI de MongoDB
+    command: bash -c "npm install && npm start"  # Commande à exécuter au démarrage
     networks:
-      - my-network  # Utilise le réseau défini sous le nom my-network
+      - web  # Connecte le service au réseau "web"
+      - lan  # Connecte également au réseau "lan"
 
   # Service MongoDB
   mongodb:
-    image: mongo:4.4
-    container_name: mongodb-container
+    image: mongo:latest  # Utilise l'image la plus récente de MongoDB
+    container_name: mongodb-container  # Nomme le conteneur mongodb-container
     ports:
-      - "27017:27017"  # Fait correspondre le port local 27017 au port du conteneur 27017
-    volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js  # Monte un script d'initialisation MongoDB
+      - "27017:27017"  # Mappe le port 27017 du conteneur à l'hôte
     networks:
-      - my-network  # Utilise le réseau défini sous le nom my-network
+      - web  # Connecte le service au réseau "web"
+      - lan  # Connecte également au réseau "lan"
 
-  # Service Node.js avec Express pour le frontend
+  # Service Node.js avec Express pour le frontend (facultatif)
   frontend:
-    image: node:18
-    container_name: frontend-container
-    working_dir: /app/frontend
+    image: node:18  # Utilise l'image Node.js version 18
+    container_name: frontend-container  # Nomme le conteneur frontend-container
+    working_dir: /app/frontend  # Répertoire de travail dans le conteneur
     volumes:
-      - ./frontend:/app/frontend  # Monte le répertoire local ./frontend dans le conteneur à /app/frontend
-    ports:
-      - "80:8080"  # Fait correspondre le port local 80 au port du conteneur 8080
-    command: bash -c "npm install axios && npm install && npm run serve"  # Commande à exécuter lors du démarrage du conteneur
+      - ./frontend:/app/frontend  # Montage du dossier local dans le conteneur
+    command: bash -c "npm install && npm run serve"  # Commande à exécuter au démarrage
+    labels:
+      - traefik.enable=true  # Active Traefik pour ce service
+      # Configuration Traefik pour le routage et les certificats TLS
+      - traefik.http.routers.mushroompy.entryPoints=websecure
+      - traefik.http.routers.mushroompy.rule=Host(`mushroompy.jrcandev.netlib.re`)
+      - traefik.http.routers.mushroompy.tls=true
+      - traefik.http.routers.mushroompy.tls.certresolver=myresolver
+      - traefik.http.services.mushroompy.loadbalancer.server.port=8080
     networks:
-      - my-network  # Utilise le réseau défini sous le nom my-network
+      - web  # Connecte le service au réseau "web"
+      - lan  # Connecte également au réseau "lan"
 
 networks:
-  my-network:
-    driver: bridge  # Utilise le pilote de réseau bridge pour créer un réseau interne aux conteneurs
+  web:
+    external: true  # Réseau "web" externe (défini en dehors de ce compose)
+  lan:
+    external: false  # Réseau "lan" local spécifique à ce compose
