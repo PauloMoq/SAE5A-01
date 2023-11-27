@@ -46,6 +46,20 @@
         </div>
       </div>
 
+      <div class="region-filter">
+        <h4>Region</h4>
+        <input type="text" v-model="newRegion" @keydown.enter="addRegion" placeholder="Ajouter une région">
+        <button @click="addRegion">+</button>
+        <div v-if="selectedRegions.length > 0">
+          <ul>
+            <li v-for="region in selectedRegions" :key="region">
+              {{ region }}
+              <span @click="removeRegion(region)" class="remove-button">x</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <div class="date-filter">
         <div class="date-inputs">
           <h4 id="DateDebut" for="startDate">Date de début</h4>
@@ -57,35 +71,39 @@
         </div>
       </div>
 
-      <select id="dropdown-list">
-        <option value="">Sélectionnez une région</option>
-        <option value="">lier à la BDD</option>
-      </select>
+      <div v-if="downloading">Téléchargement en cours...</div>
 
-      <button @click="afficherModal" class="search-button">Rechercher</button>
+      <button @click="search" class="search-button">Rechercher</button>
 
     </div>
       <div id="myModal" class="modal">
           <p>Voici votre JSON : </p>
           <img src="../assets/logo_json.png" alt="Aperçu du fichier JSON">
-          <button onclick="telechargerJSON()">Télécharger</button>
+          <button @click="downloadJSON">Télécharger</button>
       </div>
   </div>
   
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       newAuthor: '', // Auteur saisi
       newTitle: '', // Titre saisi
       newSupport: '',
+      newRegion: '',
       selectedAuthors: [], // Liste des auteurs sélectionnés
       selectedTitles: [], // Liste des titres sélectionnés
       selectedSupports: [], // Liste des titres sélectionnés
+      selectedRegions: [], // Liste des titres sélectionnés
       startDate: '', // Date de début
-      endDate: '' // Date de fin
+      endDate: '', // Date de fin
+      downloading: false,
+      showModal: false,
+      jsonResponse: null,
     };
   },
   methods: {
@@ -107,6 +125,12 @@ export default {
         this.newSupport = ''; // Réinitialisez la zone de texte
       }
     },
+    addRegion() {
+      if (this.newRegion.trim() !== '') {
+        this.selectedRegions.push(this.newRegion);
+        this.newRegion = ''; // Réinitialisez la zone de texte
+      }
+    },
     removeAuthor(author) {
       const index = this.selectedAuthors.indexOf(author);
       if (index !== -1) {
@@ -125,19 +149,81 @@ export default {
         this.selectedSupports.splice(index, 1);
       }
     },
+    removeRegion(region) {
+      const index = this.selectedRegions.indexOf(region);
+      if (index !== -1) {
+        this.selectedRegions.splice(index, 1);
+      }
+    },
+    search() {
+      // Vérifiez que les champs obligatoires sont renseignés
+      if (this.selectedAuthors.length === 0 && this.selectedTitles.length === 0 && this.selectedSupports.length === 0 && this.selectedRegions.length === 0) {
+        alert('Veuillez sélectionner au moins un auteur, un titre ou un support.');
+        return;
+      }
+
+      // Construisez votre requête avec les filtres
+      const query ={
+        "date_debut": "",
+        "date_fin": "",
+        "artiste": this.selectedAuthors[0],
+        "zone_geo": "",
+        "support": "",
+        "titre": ""
+      }
+
+      // Affichez le message "Téléchargement en cours"
+      this.downloading = true;
+
+      // Envoyez la requête à l'API 
+      axios.get('http://localhost:3000/getObjects', query)
+        .then(response => {
+          this.jsonResponse = response.data;
+          this.showModal = true;
+          console.log("ok")
+        })
+        .catch(error => {
+          console.log("PPPPP",this.selectedAuthors[0])
+          console.log(query)
+          console.error('Erreur de recherche', error);
+          alert('Une erreur s\'est produite lors de la recherche. Veuillez réessayer plus tard.');
+        })
+        .finally(() => {
+          this.downloading = false;
+          this.showModal = true;
+          console.log("done")
+        });
+    },
+
     afficherModal(event) {
-      var modal = document.getElementById('myModal');
-      modal.style.display = 'block'; 
-      // Ajouter la classe au corps pour appliquer le style de fond gris
-      var div = document.getElementById('container');
-      div.classList.add('modal-open');
-      modal.style.opacity = 100%
+      // Si aucun téléchargement en cours, affichez le modal
+      if (this.downloading) {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'block';
+        // Ajoutez la classe au corps pour appliquer le style de fond gris
+        var div = document.getElementById('container');
+        div.classList.add('modal-open');
+        modal.style.opacity = 100%
+
+        // Effectuez une requête HTTP pour récupérer les données
+        alert('Téléchargement du JSON...');
+        axios.get('URL_DE_VOTRE_API')
+          .then(response => {
+            // Mettez à jour this.queryResult avec les données de la réponse
+            this.queryResult = response.data;
+
+            // Appelez getData pour mettre à jour d'autres parties du composant si nécessaire
+            this.getData();
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des données :', error);
+          });
+      }
+
       // Empêcher la propagation de l'événement pour éviter la fermeture du modal
       event.stopPropagation();
     },
-    telechargerJSON() {
-      alert('Téléchargement du JSON...');
-    },
+
     fermerModalSiClicExterieur(event) {
       var modal = document.getElementById('myModal');
       var div = document.getElementById('container');
@@ -146,23 +232,40 @@ export default {
         div.classList.remove('modal-open');
       }
     },
+    
     getData() {
       // Récupérer la liste des auteurs actuellement sélectionnés
-      const authors = this.selectedAuthors;
+      const auteurs = this.queryResult.rq_arg.artiste;
+
       // const titles = this.selectedTitles;
       // const supports = this.selectedSupports;
       // const startDate = this.startDate;
       // const endDate = this.endDate;
 
       // Vérifier si la liste n'est pas vide
-      if (authors.length > 0) {
+      if (auteurs.length > 0) {
         // Faites quelque chose avec la liste d'auteurs ici, par exemple, les afficher dans la console.
-        alert("Liste des auteurs sélectionnés : " + authors);
+        alert("Liste des auteurs sélectionnés : " + auteurs);
       } else {
         // Si la liste est vide, mettez à jour le message en conséquence
         alert("Pas d'auteurs")
       }
-    }
+
+      this.getData();
+    },
+    downloadJSON() {
+      // Logique pour télécharger le fichier JSON
+      // Utilisez Blob pour créer un fichier JSON et créez un lien de téléchargement
+      if (this.jsonResponse) {
+        const blob = new Blob([JSON.stringify(this.jsonResponse)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'resultats_recherche.json';
+        link.click();
+      } else {
+        alert('Aucune donnée à télécharger.');
+      }
+    },
   },
   mounted() {
     // Attachez l'événement de fermeture de la modal à la fenêtre lorsque le composant est monté
@@ -241,7 +344,7 @@ h1 {
   font-weight: bold;
 }
 
-.author-filter , .support-filter , .title-filter {
+.author-filter , .support-filter , .title-filter, .region-filter{
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -265,48 +368,46 @@ h1 {
   left: 900px;
 }
 
-select {
+.region-filter {
   position: absolute;
-  width: 190px;
-  top:477px;
-  left:70px;
-  border-radius: 5px;
-  font-size: 24px; /* Ajustez cette valeur selon vos besoins */
+  top: 300px;
+  left: 0px;
 }
 
 #DateDebut {
   position: absolute;
-  top:478px;
-  left: 300px;
+  top:360px;
+  left:480px;
 }
 #startDate {
   position: absolute;
-  top:470px;
-  left:510px;
+  top:352px;
+  left:700px;
   font-size: 19px;
-
-}
-#endDate {
-  position: absolute;
-  top:470px;
-  left:870px;
-  font-size: 19px;
-}
-#DateFin {
-  position: absolute;
-  top:478px;
-  left:695px;
 }
 #horloge1 {
   position: absolute;
-  top:455px;
-  left:818px
+  top:337px;
+  left:65 0px
+}
+
+#DateFin {
+  position: absolute;
+  top:360px;
+  left:950px;
+}
+#endDate {
+  position: absolute;
+  top:352px;
+  left:1140px;
+  font-size: 19px;
 }
 #horloge2 {
   position: absolute;
-  top:455px;
-  left:461px
+  top:337px;
+  left:1090px
 }
+
 .date-filter img{
  margin-top:15px;
  margin-right: 8px;
