@@ -40,7 +40,7 @@ db.createCollection("JSON", {
               date_oeuvre: { type: "string" },
               auteur_oeuvre: { type: "string" },
               support_oeuvre: { type: "string" },
-              zonegeo_oeuvre: { type: "string" },
+              zone_geo_oeuvre: { type: "string" },
               lien_oeuvre: { type: "string" },
             },
           },
@@ -69,7 +69,7 @@ db.createCollection("Request", {
               date_debut: { type: "string" },
               date_fin: { type: "string" },
               artiste: { type: "string" },
-              zonegeo: { type: "string" },
+              zone_geo: { type: "string" },
               support: { type: "string" },
             },
           },
@@ -89,7 +89,7 @@ db.Request.insertOne({
       date_debut: "dateBegin",
       date_fin: "dateEnd",
       artiste: "q",
-      zonegeo: "geoLocation",
+      zone_geo: "geoLocation",
       support: "medium",
     }
   ]
