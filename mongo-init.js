@@ -1,4 +1,3 @@
-use Mush
 db.createCollection("User", {
   validator: {
     $jsonSchema: {
