@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 // Importation des routes définies dans le dossier 'routes'.
 var indexRouter = require('./routes/index');
@@ -13,6 +14,7 @@ var getObjectsRouter = require('./routes/getobjects');
 
 // Création de l'application Express.
 var app = express();
+app.use(cors());
 
 // Configuration du moteur de vue (view engine) et du dossier des vues.
 app.set('views', path.join(__dirname, 'views'));

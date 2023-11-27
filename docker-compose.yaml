@@ -38,6 +38,8 @@ services:
       - ./frontend:/app/frontend  # Monte le répertoire local ./frontend dans le conteneur à /app/frontend
     ports:
       - "80:8080"  # Fait correspondre le port local 80 au port du conteneur 8080
+    environment:
+      - VUE_APP_CORS=true
     command: bash -c "npm install axios && npm install && npm run serve"  # Commande à exécuter lors du démarrage du conteneur
     networks:
       - my-network  # Utilise le réseau défini sous le nom my-network
