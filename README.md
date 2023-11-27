@@ -1,25 +1,56 @@
-# Bienvenue sur MUshroom PIe
+# Bienvenue sur MushRoom Py
 
-![Nom site a définir](https://cdn.discordapp.com/attachments/1092361026437120070/1151140081692839977/OIG.jpg)
+![MushRoom Py](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Logo.jpg)
+## Introduction
+
+Cette application a pour but de permettre à tout public de récupérer des oeuvres d'arts depuis les bases de données de musées et cela, sur un seul et même site.
 
 ## Chaîne applicative
-![Chaîne applicative](https://cdn.discordapp.com/attachments/1092361026437120070/1151141655043379210/image.png)
++ Cliquez pour Zoomer
+[![Chaîne applicative](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/ChaineAppli.png)](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/ChaineAppliGrandFormat.png)
 
 ## Langages utilisés ?
 
 + HTML5, CSS
 + JavaScript, Node
-+ Python, MySQL ( avec tables relationnelles )
++ Python, MongoDB 
+
+## Installation
+1. Clone le répertoire GitHub:
+``` bash
+git clone https://github.com/Moquequette/SAE5A-01.git
+cd SAE5A-01
+```
+2. Exécution du docker compose:
++ Assurez-vous d'avoir les ports 3000 et 80 disponibles sur votre machine avant d'exécuter Docker Compose.
+``` bash
+docker-compose up -d
+```
+3. Accès à l'application:
++ Une fois les conteneur exécutés rendez-vous sur les url suivantes:
+    * BackEnd : http://localhost:3000/
+    * FrontEnd : http://localhost/#/
+4. Arrêt de l'application:
++ Pour arrêter l'application et supprimer les conteneur, faites les commandes suivantes:
+```bash
+Ctrl+C
+docker-compose down -v
+```
 
 ## Screenshots 
 
-![Connexion]() A ajouter
++ Accueil
+![Accueil](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Acceuil.jpg)
 
-![Application]() A ajouter
++ Recherche
+![Recherche](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Recherche.jpg)
 
-![Recherche]() A ajouter
++ Connexion
+![Connexion](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Connexion.jpg)
 
-![Selection]() A ajouter
++ Inscription
+![Inscription](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Inscription.jpg)
 
-## Lien des consignes d'utilisation et d'installation
-[lien des consignes]() A definir
++ Historique
+![Historique](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Historique.jpg)
+
