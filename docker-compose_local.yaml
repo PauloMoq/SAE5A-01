@@ -31,7 +31,7 @@ services:
 
   # Service Node.js avec Express pour le frontend
   frontend:
-    image: node:18
+    image: node:14
     container_name: frontend-container
     working_dir: /app/frontend
     volumes:
