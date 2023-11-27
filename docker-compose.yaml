@@ -1,9 +1,8 @@
-version: '3'
+version: '3.8'
 
 services:
-  # Service Node.js avec Express pour le backend
   backend:
-    image: node:14
+    image: node:18
     container_name: backend-container
     working_dir: /app/backend
     volumes:
@@ -11,44 +10,35 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MONGO_URI: mongodb://mongodb:27017/Mush
+      MONGO_URI: mongodb://mongodb-container:27017
     command: bash -c "npm install && npm start"
+    depends_on:
+      - mongodb
     networks:
-      - web
-      - lan
+      - my-network
 
-  # Service MongoDB
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4
     container_name: mongodb-container
     ports:
       - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
-      - web
-      - lan
+      - my-network
 
-  # Service Node.js avec Express pour le frontend (facultatif)
   frontend:
     image: node:14
     container_name: frontend-container
     working_dir: /app/frontend
     volumes:
       - ./frontend:/app/frontend
-    command: bash -c "npm install && npm run serve"
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.mushroompy.entryPoints=websecure
-      - traefik.http.routers.mushroompy.rule=Host(`mushroompy.jrcandev.netlib.re`)
-      - traefik.http.routers.mushroompy.tls=true
-      - traefik.http.routers.mushroompy.tls.certresolver=myresolver
-      - traefik.http.services.mushroompy.loadbalancer.server.port=8080
+    ports:
+      - "80:8080"
+    command: bash -c "npm install axios && npm install && npm run serve"
     networks:
-      - web
-      - lan
+      - my-network
 
 networks:
-  web:
-    external: true
-  lan:
-    external: false
-    name: lan_mushroompy
+  my-network:
+    driver: bridge

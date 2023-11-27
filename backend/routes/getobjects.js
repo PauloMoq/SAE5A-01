@@ -1,3 +1,4 @@
+// Importation des modules nécessaires.
 var express = require('express');
 const axios = require('axios');
 const {MongoClient} = require('mongodb');
@@ -38,7 +39,7 @@ router.get('/', async function (req, res, next) {
     "titre": ""
   };
 
-  // Ici, on créé "baseUrl", qui est la base de l'url de recherche.
+  // Ici, on créé "baseUrl", qui est la base de l'URL de recherche.
   const baseUrl = "https://collectionapi.metmuseum.org/public/collection/v1/search";
 
   // Créer une liste des paramètres de la recherche à partir des valeurs remplies.
@@ -46,14 +47,13 @@ router.get('/', async function (req, res, next) {
     .filter(([key, value]) => value !== "")
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`);
 
-  // Construire l'URL complète avec les paramètres?
+  // Construire l'URL complète avec les paramètres.
   const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
   var fullUrl = `${baseUrl}${queryString}`;
   // On fait ici le remplacement des chaînes de caractères pour que cela fasse la requête que l'on souhaite à l'API.
   fullUrl = fullUrl.replace("zone_geo", "geoLocation").replace("support", "medium").replace("artiste", "q").replace("date_fin", "dateEnd").replace("date_debut", "dateBegin").replace("titre", "title") + "&hasImages=true";
 
   try {
-
     // On fait la requête à l'API.
     const responseSearch = await axios.get(fullUrl);
 
@@ -62,26 +62,26 @@ router.get('/', async function (req, res, next) {
 
     const objects = [];
 
-    // On récupère les informations de chaque oeuvre.
+    // On récupère les informations de chaque œuvre.
     for (let index = 0; index < listObjectIDs.length; index++) {
       try {
-        // On récupère l'oeuvre.
+        // On récupère l'œuvre.
         const object = await axios.get("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + listObjectIDs[index]);
-        if (object.data.primaryImage === ""){
-          // Si l'oeuvre n'a pas d'image, on ne l'ajoute pas au json.
-          console.error("L'objet " + listObjectIDs[index] + " n'a pas d'image, il ne sera pas ajouté au json.");
+        if (object.data.primaryImage === "") {
+          // Si l'œuvre n'a pas d'image, on ne l'ajoute pas au JSON.
+          console.error("L'objet " + listObjectIDs[index] + " n'a pas d'image, il ne sera pas ajouté au JSON.");
           continue;
         }
 
-        const objectData = 
-        { // On récupère les informations de l'oeuvre.
+        const objectData =
+        { // On récupère les informations de l'œuvre.
           "date_oeuvre": object.data.objectDate,
           "auteur_oeuvre": object.data.artistDisplayName,
           "support_oeuvre": object.data.medium,
           "zonegeo_oeuvre": object.data.country,
           "lien_oeuvre": object.data.primaryImage
         };
-        // On ajoute l'oeuvre à la liste des oeuvres.
+        // On ajoute l'œuvre à la liste des œuvres.
         objects.push(objectData);
 
       } catch (error) {
@@ -90,21 +90,22 @@ router.get('/', async function (req, res, next) {
       }
     }
 
-    // On créé le json de réponse.
+    // On créé le JSON de réponse.
     const requete = {
       "rq_user": "",
-      "rq_nboeuvre": objects.length, // On récupère le nombre d'oeuvres.
+      "rq_nboeuvre": objects.length, // On récupère le nombre d'œuvres.
       "rq_arg": filtreRecherche, // On récupère les arguments de la recherche.
-      "rq_result": objects // On récupère les oeuvres.
+      "rq_result": objects // On récupère les œuvres.
     }
-  
+
     res.send(requete);
   } catch (error) {
     // Si on a une erreur lors de la récupération DES fichiers, on l'affiche dans la console.
     console.error(error);
-    res.status(500).json({ error: 'Une erreur à occuré pendant la récupération des données.' });
+    res.status(500).json({ error: 'Une erreur a eu lieu pendant la récupération des données.' });
   }
 
 });
 
+// Exportation du routeur pour être utilisé dans d'autres modules.
 module.exports = router;
