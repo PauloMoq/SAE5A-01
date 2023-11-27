@@ -16,18 +16,20 @@ router.get('/', async function (req, res, next) {
     try {
       await client.connect();
       
-      const mush = client.db("Mush");
-  
-      const result = await mush.listCollections().toArray();
-  
-      console.log(result);
+      const database = client.db("test");
+
+      const request = database.collection("Request");
+      
+      const apiParams = await request.findOne({id: 1});
+      
+      return apiParams.rq_arg[0];
   
     } catch (error) {
       console.error(error);
     }
   }
-  
-  main().catch(console.error);
+
+  var params = await main().catch(console.error);
 
   // On récupère les paramètres de la recherche.
   const filtreRecherche = {
@@ -51,7 +53,7 @@ router.get('/', async function (req, res, next) {
   const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
   var fullUrl = `${baseUrl}${queryString}`;
   // On fait ici le remplacement des chaînes de caractères pour que cela fasse la requête que l'on souhaite à l'API.
-  fullUrl = fullUrl.replace("zone_geo", "geoLocation").replace("support", "medium").replace("artiste", "q").replace("date_fin", "dateEnd").replace("date_debut", "dateBegin").replace("titre", "title") + "&hasImages=true";
+  fullUrl = fullUrl.replace("zone_geo", params.zone_geo).replace("support", params.support).replace("artiste", params.artiste).replace("date_fin", params.date_fin).replace("date_debut", params.date_debut).replace("titre", "title") + "&hasImages=true";
 
   try {
     // On fait la requête à l'API.
