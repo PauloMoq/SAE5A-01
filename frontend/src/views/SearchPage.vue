@@ -1,77 +1,77 @@
 <template>
-  <div>
-  <div class="background"></div>
-  <div class="container">
-    <h1>Recherchez des oeuvres d'arts</h1>
-    
-    <div class="author-filter">
-      <h4>Auteurs</h4>
-      <input type="text" v-model="newAuthor" @keydown.enter="addAuthor" placeholder="Ajouter un auteur">
-      <button @click="addAuthor">+</button>
-      <div v-if="selectedAuthors.length > 0">
-        <ul>
-          <li v-for="author in selectedAuthors" :key="author">
-            {{ author }}
-            <span @click="removeAuthor(author)" class="remove-button">x</span>
-          </li>
-        </ul>
+  <div id="bg">
+    <div class="background"></div>
+    <div id="container">
+      <h1>Recherchez des oeuvres d'arts</h1>
+      
+      <div class="author-filter">
+        <h4>Auteurs</h4>
+        <input type="text" v-model="newAuthor" @keydown.enter="addAuthor" placeholder="Ajouter un auteur">
+        <button @click="addAuthor">+</button>
+        <div v-if="selectedAuthors.length > 0">
+          <ul>
+            <li v-for="author in selectedAuthors" :key="author">
+              {{ author }}
+              <span @click="removeAuthor(author)" class="remove-button">x</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="title-filter">
-      <h4>Titres</h4>
-      <input type="text" v-model="newTitle" @keydown.enter="addTitle" placeholder="Ajouter un titre">
-      <button @click="addTitle">+</button>
-      <div v-if="selectedTitles.length > 0">
-        <ul>
-          <li v-for="title in selectedTitles" :key="title">
-            {{ title }}
-            <span @click="removeTitle(title)" class="remove-button">x</span>
-          </li>
-        </ul>
+      <div class="title-filter">
+        <h4>Titres</h4>
+        <input type="text" v-model="newTitle" @keydown.enter="addTitle" placeholder="Ajouter un titre">
+        <button @click="addTitle">+</button>
+        <div v-if="selectedTitles.length > 0">
+          <ul>
+            <li v-for="title in selectedTitles" :key="title">
+              {{ title }}
+              <span @click="removeTitle(title)" class="remove-button">x</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="support-filter">
-      <h4>Supports</h4>
-      <input type="text" v-model="newSupport" @keydown.enter="addSupport" placeholder="Ajouter un support">
-      <button @click="addSupport">+</button>
-      <div v-if="selectedSupports.length > 0">
-        <ul>
-          <li v-for="support in selectedSupports" :key="support">
-            {{ support }}
-            <span @click="removeSupport(support)" class="remove-button">x</span>
-          </li>
-        </ul>
+      <div class="support-filter">
+        <h4>Supports</h4>
+        <input type="text" v-model="newSupport" @keydown.enter="addSupport" placeholder="Ajouter un support">
+        <button @click="addSupport">+</button>
+        <div v-if="selectedSupports.length > 0">
+          <ul>
+            <li v-for="support in selectedSupports" :key="support">
+              {{ support }}
+              <span @click="removeSupport(support)" class="remove-button">x</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="date-filter">
-      <div class="date-inputs">
-        <h4 id="DateDebut" for="startDate">Date de début</h4>
-        <img src="../assets/horloge.png" id="horloge1" alt="Icône horloge">
-        <input  type="date" id="startDate" v-model="startDate">
-        <h4 id="DateFin" for="endDate">Date de fin</h4>
-        <img src="../assets/horloge.png" id="horloge2" alt="Icône horloge">
-        <input  type="date" id="endDate" v-model="endDate">
+      <div class="date-filter">
+        <div class="date-inputs">
+          <h4 id="DateDebut" for="startDate">Date de début</h4>
+          <img src="../assets/horloge.png" id="horloge1" alt="Icône horloge">
+          <input  type="date" id="startDate" v-model="startDate">
+          <h4 id="DateFin" for="endDate">Date de fin</h4>
+          <img src="../assets/horloge.png" id="horloge2" alt="Icône horloge">
+          <input  type="date" id="endDate" v-model="endDate">
+        </div>
       </div>
+
+      <select id="dropdown-list">
+        <option value="">Sélectionnez une région</option>
+        <option value="">lier à la BDD</option>
+      </select>
+
+      <button @click="afficherModal" class="search-button">Rechercher</button>
+
     </div>
-
-    <select id="dropdown-list">
-      <option value="">Sélectionnez une région</option>
-      <option value="">lier à la BDD</option>
-    </select>
-
-    <button @click="afficherModal" class="search-button">Rechercher</button>
-
-    <!-- Boîte modale -->
-    <div id="myModal" class="modal">
-        <p>Voici votre JSON : </p>
-        <img src="../assets/logo_json.png" alt="Aperçu du fichier JSON">
-        <button onclick="telechargerJSON()">Télécharger</button>
+      <div id="myModal" class="modal">
+          <p>Voici votre JSON : </p>
+          <img src="../assets/logo_json.png" alt="Aperçu du fichier JSON">
+          <button onclick="telechargerJSON()">Télécharger</button>
       </div>
   </div>
-  </div>
+  
 </template>
 
 <script>
@@ -128,7 +128,10 @@ export default {
     afficherModal(event) {
       var modal = document.getElementById('myModal');
       modal.style.display = 'block'; 
-
+      // Ajouter la classe au corps pour appliquer le style de fond gris
+      var div = document.getElementById('container');
+      div.classList.add('modal-open');
+      modal.style.opacity = 100%
       // Empêcher la propagation de l'événement pour éviter la fermeture du modal
       event.stopPropagation();
     },
@@ -137,8 +140,10 @@ export default {
     },
     fermerModalSiClicExterieur(event) {
       var modal = document.getElementById('myModal');
-      if (event.target !== modal && !modal.contains(event.target)) {
+      var div = document.getElementById('container');
+      if (modal && event.target !== modal && !modal.contains(event.target)) {
         modal.style.display = 'none';
+        div.classList.remove('modal-open');
       }
     },
     getData() {
@@ -170,16 +175,21 @@ export default {
 
 <style scoped>
 #myModal {
-  display: none;
-  width: 400px;
-  background: rgba(0, 66, 37, 0.8); /* Couleur de fond semi-transparente avec flou */
-  height: 200px;
-  border-radius: 20px;
-  color: white;
-  margin-left:450px;
-  margin-top: 200px;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: rgba(0, 66, 37, 1); /* Couleur de fond semi-transparente avec flou */
+    height: 200px;
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ajout de l'ombre */
 }
+
 #myModal img {
+  filter: invert(100%); /* Inverser les couleurs de l'image (de noir à blanc) */
   width: 80px;
   height: 80px;
 }
@@ -201,9 +211,10 @@ export default {
     left: 300;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Place l'arrière-plan derrière les autres éléments */
 }
-.container {
+
+#container {
+  transition:0.5s;
   position: absolute;
   top: 53%;
   left: 50%;
@@ -256,10 +267,13 @@ h1 {
 
 select {
   position: absolute;
-  top:482px;
+  width: 190px;
+  top:477px;
   left:70px;
   border-radius: 5px;
+  font-size: 24px; /* Ajustez cette valeur selon vos besoins */
 }
+
 #DateDebut {
   position: absolute;
   top:478px;
@@ -307,7 +321,7 @@ select {
 }
 
 
-.container h4, h1 {
+#container h4, h1 {
   color: #f5f5f5;
 }
 h1 {
@@ -377,10 +391,15 @@ li {
 }
 
 .search-button:hover {
-  transition: 0.4s;
-  background-color: #dcb253;
+  transition: 0.5s;
+  background-color: #ffd575;
+  color : black
 }
-
-
-
+.modal-open {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;    
+  opacity: 0.8; /* Ajoutez l'opacité que vous souhaitez */
+  transition : 0.5s;
+}
 </style>

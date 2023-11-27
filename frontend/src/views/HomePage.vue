@@ -6,6 +6,9 @@
         <div class="hero-content">
           <h1>Bienvenue sur notre site</h1>
           <p>La meilleure expérience culturelle vous attend.</p>
+
+          <p>Telecharger notre application afin de telecharger les données : </p>
+          <button>Télécharger</button>
         </div>
       </div>
     </div>

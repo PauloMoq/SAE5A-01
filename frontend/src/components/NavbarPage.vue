@@ -7,7 +7,9 @@
       <router-link class="navbar-link" v-if="!authenticated" to="/search"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</router-link>
       <router-link class="navbar-link" v-if="!authenticated" to="/login">Connexion</router-link>
       <router-link class="navbar-link" v-if="!authenticated" to="/register">Inscription</router-link>
+      <router-link class="navbar-link" v-if="!authenticated" to="/historique">Historique</router-link>
       <button v-if="authenticated" @click="logout" class="logout-button">Déconnexion</button>
+
     </div>
   </nav>
 </template>
@@ -52,6 +54,9 @@ export default {
   left: 0; /* Position à gauche de la page */
   right: 0; /* Position à droite de la page */
   z-index: 1000; /* Assurer que la barre de navigation est au-dessus de tout autre contenu */
+  background: rgba(0, 66, 37, 0.9); /* Couleur de fond semi-transparente avec flou */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(7px); /* Effet de flou */
 }
 
 .navbar-links {

@@ -4,6 +4,8 @@ import Register from '../views/RegisterPage.vue'
 import Login from '../views/LoginPage.vue'
 import PasswordPage from '../views/PasswordPage.vue'
 import SearchPage from '../views/SearchPage.vue'
+import HistoriquePage from '../views/HistoriquePage.vue'
+
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -32,6 +34,11 @@ const routes = [
     path: '/search',
     name: 'SearchPage',
     component: SearchPage // Utilisez la vue SearchPage pour ce chemin
+  },
+  {
+    path: '/historique',
+    name: 'HistoriquePage',
+    component: HistoriquePage // Utilisez la vue SearchPage pour ce chemin
   }
 ]
 
