@@ -29,7 +29,7 @@ services:
 
   # Service Node.js avec Express pour le frontend (facultatif)
   frontend:
-    image: node:14  # Utilise l'image Node.js version 14
+    image: node:18  # Utilise l'image Node.js version 18
     container_name: frontend-container  # Nomme le conteneur frontend-container
     working_dir: /app/frontend  # Répertoire de travail dans le conteneur
     volumes:
