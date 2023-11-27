@@ -1,9 +1,33 @@
 var express = require('express');
 const axios = require('axios');
+const {MongoClient} = require('mongodb');
+const mongoose = require('mongoose');
 var router = express.Router();
+
 
 /* Un moyen de récupérer les oeuvres recherchés */
 router.get('/', async function (req, res, next) {
+  const mongoUri = process.env.MONGO_URI || 'mongodb://mongodb-container:27017/';
+  
+  async function main() {
+    const client = new MongoClient(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true  });
+  
+    try {
+      await client.connect();
+      
+      const mush = client.db("Mush");
+  
+      const result = await mush.listCollections().toArray();
+  
+      console.log(result);
+  
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  main().catch(console.error);
+
   // On récupère les paramètres de la recherche.
   const filtreRecherche = {
     "date_debut": "",
