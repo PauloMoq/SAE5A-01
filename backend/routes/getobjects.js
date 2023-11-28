@@ -32,7 +32,7 @@ router.get('/', async function (req, res, next) {
   var params = await main().catch(console.error);
 
   // On récupère les paramètres de la recherche.
-  const filtreRecherche = {
+  const filtreRecherche = req.body || {
     "date_debut": "",
     "date_fin": "",
     "artiste": "Claude Monet",

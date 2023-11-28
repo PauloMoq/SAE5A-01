@@ -71,7 +71,11 @@
         </div>
       </div>
 
-      <div v-if="downloading">Téléchargement en cours...</div>
+      <div v-if="downloading" class="loading-overlay">
+        <div class="loading-popup">
+          <div class="loading-message">Téléchargement en cours...</div>
+        </div>
+      </div>
 
       <button @click="search" class="search-button">Rechercher</button>
 
@@ -102,7 +106,6 @@ export default {
       startDate: '', // Date de début
       endDate: '', // Date de fin
       downloading: false,
-      showModal: false,
       jsonResponse: null,
     };
   },
@@ -162,14 +165,15 @@ export default {
         return;
       }
 
-      // Construisez votre requête avec les filtres
+      // construction de la requête avec les filtres
+      // vérifier que startDate et endDate fonctionne 
       const query ={
-        "date_debut": "",
-        "date_fin": "",
+        "date_debut": this.startDate[0],
+        "date_fin": this.endDate[0],
         "artiste": this.selectedAuthors[0],
-        "zone_geo": "",
-        "support": "",
-        "titre": ""
+        "zone_geo": this.selectedRegions[0],
+        "support": this.selectedSupports[0],
+        "titre": this.selectedTitles[0]
       }
 
       // Affichez le message "Téléchargement en cours"
@@ -179,49 +183,29 @@ export default {
       axios.get('http://localhost:3000/getObjects', query)
         .then(response => {
           this.jsonResponse = response.data;
-          this.showModal = true;
           console.log("ok")
         })
         .catch(error => {
-          console.log("PPPPP",this.selectedAuthors[0])
           console.log(query)
           console.error('Erreur de recherche', error);
           alert('Une erreur s\'est produite lors de la recherche. Veuillez réessayer plus tard.');
         })
         .finally(() => {
           this.downloading = false;
-          this.showModal = true;
+          this.afficherModal()
           console.log("done")
         });
     },
 
-    afficherModal(event) {
-      // Si aucun téléchargement en cours, affichez le modal
-      if (this.downloading) {
-        var modal = document.getElementById('myModal');
-        modal.style.display = 'block';
-        // Ajoutez la classe au corps pour appliquer le style de fond gris
-        var div = document.getElementById('container');
-        div.classList.add('modal-open');
-        modal.style.opacity = 100%
+    afficherModal() {
+      // affichez le modal
+      var modal = document.getElementById('myModal');
+      modal.style.display = 'block';
+      modal.style.opacity = "100%";
 
-        // Effectuez une requête HTTP pour récupérer les données
-        alert('Téléchargement du JSON...');
-        axios.get('URL_DE_VOTRE_API')
-          .then(response => {
-            // Mettez à jour this.queryResult avec les données de la réponse
-            this.queryResult = response.data;
-
-            // Appelez getData pour mettre à jour d'autres parties du composant si nécessaire
-            this.getData();
-          })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des données :', error);
-          });
-      }
-
-      // Empêcher la propagation de l'événement pour éviter la fermeture du modal
-      event.stopPropagation();
+      // Ajoutez la classe au corps pour appliquer le style de fond gris
+      var div = document.getElementById('container');
+      div.classList.add('modal-open');
     },
 
     fermerModalSiClicExterieur(event) {
@@ -232,30 +216,9 @@ export default {
         div.classList.remove('modal-open');
       }
     },
-    
-    getData() {
-      // Récupérer la liste des auteurs actuellement sélectionnés
-      const auteurs = this.queryResult.rq_arg.artiste;
-
-      // const titles = this.selectedTitles;
-      // const supports = this.selectedSupports;
-      // const startDate = this.startDate;
-      // const endDate = this.endDate;
-
-      // Vérifier si la liste n'est pas vide
-      if (auteurs.length > 0) {
-        // Faites quelque chose avec la liste d'auteurs ici, par exemple, les afficher dans la console.
-        alert("Liste des auteurs sélectionnés : " + auteurs);
-      } else {
-        // Si la liste est vide, mettez à jour le message en conséquence
-        alert("Pas d'auteurs")
-      }
-
-      this.getData();
-    },
+  
     downloadJSON() {
-      // Logique pour télécharger le fichier JSON
-      // Utilisez Blob pour créer un fichier JSON et créez un lien de téléchargement
+      // utilisation de Blob pour créer un fichier JSON et créez un lien de téléchargement
       if (this.jsonResponse) {
         const blob = new Blob([JSON.stringify(this.jsonResponse)], { type: 'application/json' });
         const link = document.createElement('a');
@@ -315,6 +278,32 @@ export default {
     width: 100%;
     height: 100%;
 }
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 7px;
+  }
+
+  .loading-popup {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .loading-message {
+    text-align: center;
+  }
 
 #container {
   transition:0.5s;

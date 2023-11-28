@@ -8,8 +8,6 @@ var logger = require('morgan');
 const cors = require('cors');
 
 // Importation des routes définies dans le dossier 'routes'.
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var getObjectsRouter = require('./routes/getobjects');
 
 // Création de l'application Express.
@@ -28,8 +26,6 @@ app.use(cookieParser());  // Middleware pour parser les cookies.
 app.use(express.static(path.join(__dirname, 'public')));  // Middleware pour servir des fichiers statiques depuis le dossier 'public'.
 
 // Attribution des routes aux gestionnaires correspondants.
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/getObjects', getObjectsRouter);
 
 // Middleware pour gérer les erreurs 404 (non trouvées) et les rediriger vers le gestionnaire d'erreurs.
