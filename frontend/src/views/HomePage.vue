@@ -6,12 +6,17 @@
         <div class="hero-content">
           <h1>Bienvenue sur notre site</h1>
           <p>La meilleure expérience culturelle vous attend.</p>
+        </div>
 
-          <p>Telecharger notre application afin de telecharger les données : </p>
-          <a href="https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Appli%20Python/MushRoomPy/MushRoomPy.exe" download="MushRoomPy.exe">
-            <button>Télécharger</button>
+        <div class="container-application">
+          <h4>Téléchargez notre application !</h4>
+          <p>Notre application vous permettra de récupérer vos données à partir de votre fichier json.</p>
+          <a href="https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Appli%20Python/MushRoomPy/MushRoomPy.exe" download="MushRoomPy.exe" id="button_dl">
+            <img src="../assets/telecharger.png" alt="logo telecharger">
+            Télécharger
           </a>
         </div>
+        
       </div>
     </div>
   </div>
@@ -24,8 +29,6 @@ export default {
 </script>
 
 <style scoped>
-/* Styles spécifiques à la page Home */
-/* Appliquez un style au conteneur du bandeau */
 .background {
     background-image: url('../assets/test.jpg');
     background-size: cover;
@@ -58,8 +61,41 @@ h1 {
   margin-bottom: 10px;
 }
 
-p {
-  font-size: 25px;
-  color: #555;
+.container-application {
+  position: absolute;
+  width: 330px;
+  height: 300px;
+  bottom: 50px;
+  right: 50px;
+  text-align: center;
+  color :white;
+  background: rgba(0, 66, 37, 0.8); /* Couleur de fond semi-transparente avec flou */
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(7px); /* Effet de flou */
+}
+
+.container-application p {
+  padding: 5px;
+}
+
+.container-application img {
+  width: 30px;
+  height: 30px;
+}
+
+#button_dl {
+  padding-top:10px ;
+  display: block;
+  border-radius: 7px;
+  background-color: #dcb253;
+  width: 160px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 120px;
+  font-size: 18px;
+  text-decoration: none;
+  color: white;
 }
 </style>
