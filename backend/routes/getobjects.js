@@ -2,7 +2,6 @@
 var express = require('express');
 const axios = require('axios');
 const {MongoClient} = require('mongodb');
-const mongoose = require('mongoose');
 var router = express.Router();
 
 
@@ -30,8 +29,6 @@ router.get('/', async function (req, res, next) {
   }
 
   var params = await main().catch(console.error);
-
-  console.log(req.body)
 
   // On récupère les paramètres de la recherche.
   const filtreRecherche = req.query.length === 0 ? {
