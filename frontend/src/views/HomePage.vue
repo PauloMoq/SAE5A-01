@@ -10,13 +10,12 @@
 
         <div class="container-application">
           <h4>Téléchargez notre application!</h4>
-          <p>Notre application vous permettra de récupérer vos données à partir de votre fichier json.</p>
-          <a href="" download="MushRoomPy.exe" id="button_dl">
+          <p>Notre application vous permettra de récupérer vos données à partir de votre fichier JSON.</p>
+          <a href="https://github.com/Moquequette/SAE5A-01/raw/main/Appli_Python/MushRoomPy/MushRoomPy.exe" download="MushRoomPy.exe" id="button_dl">
             <img src="../assets/telecharger.png" alt="logo telecharger">
             Télécharger
           </a>
         </div>
-        
       </div>
     </div>
   </div>
