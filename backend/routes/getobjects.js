@@ -31,15 +31,17 @@ router.get('/', async function (req, res, next) {
 
   var params = await main().catch(console.error);
 
+  console.log(req.body)
+
   // On récupère les paramètres de la recherche.
-  const filtreRecherche = req.body || {
+  const filtreRecherche = req.body.length === 0 ? {
     "date_debut": "",
     "date_fin": "",
     "artiste": "Claude Monet",
     "zone_geo": "",
     "support": "",
     "titre": ""
-  };
+  } : req.body;
 
   // Ici, on créé "baseUrl", qui est la base de l'URL de recherche.
   const baseUrl = "https://collectionapi.metmuseum.org/public/collection/v1/search";
