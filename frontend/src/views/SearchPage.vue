@@ -62,12 +62,13 @@
 
       <div class="date-filter">
         <div class="date-inputs">
-          <h4 id="DateDebut" for="startDate">Date de début</h4>
+          <h4 id="DateDebut" for="startDate">Année de début</h4>
           <img src="../assets/horloge.png" id="horloge1" alt="Icône horloge">
-          <input  type="date" id="startDate" v-model="startDate">
-          <h4 id="DateFin" for="endDate">Date de fin</h4>
+          <input id="startDate" type="text" @input="updateStartDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*"> 
+          <h4 id="DateFin" for="endDate">Année de fin</h4>
           <img src="../assets/horloge.png" id="horloge2" alt="Icône horloge">
-          <input  type="date" id="endDate" v-model="endDate">
+          <input id="endDate" type="text" @input="updateEndDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*">
+
         </div>
       </div>
 
@@ -158,6 +159,12 @@ export default {
         this.selectedRegions.splice(index, 1);
       }
     },
+    updateStartDate(event) {
+      this.startDate = [event.target.value];
+    },
+    updateEndDate(event) {
+      this.endDate = [event.target.value];
+    },
     search() {
       // Vérifiez que les champs obligatoires sont renseignés
       if (this.selectedAuthors.length === 0 && this.selectedTitles.length === 0 && this.selectedSupports.length === 0 && this.selectedRegions.length === 0) {
@@ -166,21 +173,21 @@ export default {
       }
 
       // construction de la requête avec les filtres
-      // vérifier que startDate et endDate fonctionne 
+      // uniquement avec le 1er champ des filtres
       const query ={
-        "date_debut": this.startDate[0],
-        "date_fin": this.endDate[0],
-        "artiste": this.selectedAuthors[0],
-        "zone_geo": this.selectedRegions[0],
-        "support": this.selectedSupports[0],
-        "titre": this.selectedTitles[0]
+        "date_debut": this.startDate==undefined ? '' : this.startDate[0],
+        "date_fin": this.endDate==undefined ? '' : this.endDate[0],
+        "artiste": this.selectedAuthors[0]==undefined ? '' : this.selectedAuthors[0],
+        "zone_geo": this.selectedRegions[0]==undefined ? '' : this.selectedRegions[0],
+        "support": this.selectedSupports[0]==undefined ? '' : this.selectedSupports[0],
+        "titre": this.selectedTitles[0]==undefined ? '' : this.selectedTitles[0],
       }
 
       // Affichez le message "Téléchargement en cours"
       this.downloading = true;
 
       // Envoyez la requête à l'API 
-      axios.get('http://localhost:3000/getObjects', query)
+      axios.get('http://localhost:3000/getObjects', { params: query })
         .then(response => {
           this.jsonResponse = response.data;
           console.log("ok")
@@ -372,7 +379,9 @@ h1 {
   position: absolute;
   top:352px;
   left:700px;
-  font-size: 19px;
+  font-size: 18px;
+  width: 80px;
+
 }
 #horloge1 {
   position: absolute;
@@ -389,7 +398,8 @@ h1 {
   position: absolute;
   top:352px;
   left:1140px;
-  font-size: 19px;
+  font-size: 18px;
+  width: 80px;
 }
 #horloge2 {
   position: absolute;
@@ -399,15 +409,14 @@ h1 {
 
 .date-filter img{
  margin-top:15px;
- margin-right: 8px;
- margin-left:10px;
- width: 42px;
- height: 42px;
+ margin-left:12px;
+ width: 39px;
+ height: 39px;
  color : white;
  background-color: #dcb253;
  border-top-left-radius: 5px;
  border-bottom-left-radius: 5px;
- padding: 4px;
+ padding: 8px;
 }
 
 
