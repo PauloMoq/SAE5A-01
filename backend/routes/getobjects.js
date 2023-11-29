@@ -1,28 +1,28 @@
 // Importation des modules nécessaires.
 var express = require('express');
 const axios = require('axios');
-const {MongoClient} = require('mongodb');
+const { MongoClient } = require('mongodb');
 var router = express.Router();
 
 
 /* Un moyen de récupérer les oeuvres recherchés */
 router.get('/', async function (req, res, next) {
   const mongoUri = process.env.MONGO_URI || 'mongodb://mongodb-container:27017/';
-  
+
   async function main() {
-    const client = new MongoClient(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true  });
-  
+    const client = new MongoClient(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true });
+
     try {
       await client.connect();
-      
+
       const database = client.db("test");
 
       const request = database.collection("Request");
-      
-      const apiParams = await request.findOne({id: 1});
-      
+
+      const apiParams = await request.findOne({ id: 1 });
+
       return apiParams.rq_arg[0];
-  
+
     } catch (error) {
       console.error(error);
     }
@@ -76,11 +76,11 @@ router.get('/', async function (req, res, next) {
 
         // On récupère les informations de l'œuvre.
         const objectData = {
-          "date_oeuvre": object.data.objectDate?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
-          "auteur_oeuvre": object.data.artistDisplayName?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
-          "support_oeuvre": object.data.medium?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
-          "zonegeo_oeuvre": object.data.country?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
-          "lien_oeuvre": object.data.primaryImage?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "date_oeuvre": object.data.objectDate?.replaceAll('\n', '').replaceAll('\r', '').replaceAll('/', '-').replaceAll(/[\\\:*?"<>|]/g, ''),
+          "auteur_oeuvre": object.data.artistDisplayName?.replaceAll('\n', '').replaceAll('\r', '').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "support_oeuvre": object.data.medium?.replaceAll('\n', '').replaceAll('\r', '').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "zonegeo_oeuvre": object.data.country?.replaceAll('\n', '').replaceAll('\r', '').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "lien_oeuvre": object.data.primaryImage,
         };
 
         // On ajoute l'œuvre à la liste des œuvres.
