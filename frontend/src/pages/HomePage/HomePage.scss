@@ -1,0 +1,81 @@
+.HomePage .background-home {
+  background-image: url("../../assets/test.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transform: scaleX(-1);
+}
+
+.HomePage .home {
+  text-align: left;
+  padding: 40px;
+}
+
+.HomePage .hero-content {
+  position: relative;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.HomePage .hero-content h1 {
+  font-size: 70px;
+  margin-bottom: 10px;
+}
+
+.HomePage #description {
+  font-size: 21px;
+}
+
+.HomePage .container-application {
+  position: absolute;
+  width: 330px;
+  height: 250px;
+  bottom: 50px;
+  right: 50px;
+  text-align: center;
+  color: white;
+  background: rgba(0, 66, 37, 0.8);
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(7px);
+}
+
+.HomePage .container-application h4 {
+  padding: 10px;
+}
+
+.HomePage .container-application p {
+  text-align: left;
+  margin-left: 25px;
+}
+
+.HomePage .container-application img {
+  width: 30px;
+  height: 30px;
+}
+
+.HomePage #button_dl {
+  padding-top: 12px;
+  transition: 0.3s;
+  display: block;
+  border-radius: 7px;
+  background-color: #dcb253;
+  width: 160px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  font-size: 18px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.HomePage #button_dl:hover {
+  background-color: #ffd575;
+}
