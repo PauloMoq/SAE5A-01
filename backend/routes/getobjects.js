@@ -31,7 +31,7 @@ router.get('/', async function (req, res, next) {
   var params = await main().catch(console.error);
 
   // On récupère les paramètres de la recherche.
-  const filtreRecherche = req.query.length === 0 ? {
+  const filtreRecherche = Object.keys(req.query).length === 0 ? {
     "date_debut": "",
     "date_fin": "",
     "artiste": "Claude Monet",
@@ -74,14 +74,15 @@ router.get('/', async function (req, res, next) {
           continue;
         }
 
-        const objectData =
-        { // On récupère les informations de l'œuvre.
-          "date_oeuvre": object.data.objectDate,
-          "auteur_oeuvre": object.data.artistDisplayName,
-          "support_oeuvre": object.data.medium,
-          "zonegeo_oeuvre": object.data.country,
-          "lien_oeuvre": object.data.primaryImage
+        // On récupère les informations de l'œuvre.
+        const objectData = {
+          "date_oeuvre": object.data.objectDate?.replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "auteur_oeuvre": object.data.artistDisplayName?..replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "support_oeuvre": object.data.medium?..replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "zonegeo_oeuvre": object.data.country?..replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
+          "lien_oeuvre": object.data.primaryImage?..replaceAll('\n','').replaceAll('\r','').replaceAll(/[\\\/:*?"<>|]/g, ''),
         };
+        
         // On ajoute l'œuvre à la liste des œuvres.
         objects.push(objectData);
 
