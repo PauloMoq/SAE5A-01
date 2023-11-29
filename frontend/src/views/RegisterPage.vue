@@ -8,30 +8,30 @@
       <!-- Checkbox pour activer/désactiver le formulaire -->
       <input type="checkbox" id="check">
 
-      <!-- Formulaire d'inscription -->
+          <!-- Formulaire d'inscription -->
       <div class="registration form">
         <header>S'inscrire</header>
-        <form action="#">
-          <!-- Champ pour l'email -->
+        <form>
+          <!-- Champ pour le pseudo -->
           <div class="input-container">
-            <img src="../assets/icon_mail.png" alt="Icône email">
-            <input type="text" placeholder="Entrez votre email">
+            <img src="../assets/username.png" alt="Icône pseudo">
+            <input v-model="username" type="text" placeholder="Entrez votre pseudo">
           </div>
 
           <!-- Champ pour le mot de passe -->
           <div class="input-container">
             <img src="../assets/icon_cadena.png" alt="Icône mdp">
-            <input type="password" placeholder="Créez votre mot de passe">
+            <input v-model="password" type="password" placeholder="Créez votre mot de passe">
           </div>
 
           <!-- Champ pour confirmer le mot de passe -->
           <div class="input-container">
             <img src="../assets/icon_cadena.png" alt="Icône mdp">
-            <input type="password" placeholder="Confirmez votre mot de passe">
+            <input v-model="confirmPassword" type="password" placeholder="Confirmez votre mot de passe">
           </div>
 
           <!-- Bouton pour soumettre le formulaire -->
-          <input type="button" class="button" id="send" value="S'inscrire" @click="register()">
+          <input type="button" class="button" id="send" value="S'inscrire" @click="register">
         </form>
 
         <!-- Lien vers la page de connexion -->
@@ -46,22 +46,51 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
-      firstname: '',
-      lastname: '',
-      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
     };
   },
   methods: {
-    // Fonction appelée lors de l'inscription
     register() {
-      this.$swal({
-        text: "Le mot de passe n'est pas le même que dans le champ de confirmation.",
-        icon: 'error'
-      })
-      // Le reste de la logique d'inscription...
+      // confirm pas définis car je le vérif ici et j'envoe pas sur postman
+      if (this.password != this.confirmPassword) {
+        Swal.fire("Erreur !", "Les mots de passes sont différents.", "error");
+      }
+      else {
+        axios.post('http://localhost:3000/auth/register', {
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response)
+          this.$router.push('/login');
+        })
+        .catch(error => {
+          console.log(error)
+          if (error.response) {
+            // Récupérer le message d'erreur de la réponse JSON
+            if (error.response.data && error.response.data.error) {
+              Swal.fire("Erreur !", error.response.data.error, "error");
+            } else {
+              Swal.fire("Erreur !", 'Une erreur inattendue s\'est produite.', "error");
+            }
+          } else if (error.request) {
+            // La requête a été faite, mais aucune réponse n'a été reçue
+            console.log(error.request);
+          } else {
+            // Une erreur s'est produite lors de la configuration de la requête
+            console.log('Error', error.message);
+          }
+          console.log(error.config); // La configuration de la requête qui a déclenché l'erreur
+        });
+      }
     },
   },
 };

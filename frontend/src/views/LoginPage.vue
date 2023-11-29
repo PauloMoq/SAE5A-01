@@ -5,51 +5,80 @@
       <input type="checkbox" id="check">
       <div class="login form">
         <header>Connexion</header>
-        <form action="#">
-          <div class="input-container">
-            <img src="../assets/icon_mail.png" alt="Icône email">
-            <input type="text" placeholder="Entrez votre email">
+          <form action="#">
+            <div class="input-container">
+              <img src="../assets/username.png" alt="Icône username">
+              <input v-model="username" type="text" placeholder="Entrez votre pseudo">
+            </div>
+            <div class="input-container">
+              <img src="../assets/icon_cadena.png" alt="Icône mdp">
+              <input v-model="password" type="password" placeholder="Entrez votre mot de passe">
+            </div>
+            <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
+            <input type="button" class="button" id="send" value="Se connecter" @click="login">
+          </form>
+          <div class="signup">
+            <span class="signup">Tu n'as pas de compte?
+              <label for="check"><router-link to="/register">S'inscrire</router-link></label>
+            </span>
           </div>
-          <div class="input-container">
-            <img src="../assets/icon_cadena.png" alt="Icône mdp">
-            <input type="password" placeholder="Entrez votre mot de passe">
-          </div>
-          <router-link to="/forgotPassword"><a href="#">Mot de passe oublié?</a></router-link>
-          <input type="button" class="button" id="send" value="Se connecter">
-        </form>
-        <div class="signup">
-          <span class="signup">Tu n'as pas de compte?
-            <label for="check"><router-link to="/register">S'inscrire</router-link></label>
-          </span>
         </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 export default {
+  props: ['updateAuthentication'],
   data() {
     return {
-      firstname: '',
-      lastname: '',
-      email: '',
+      username: '',
       password: '',
-      confirmPassword: '', // Champ pour la confirmation du mot de passe
+      errorMessage: null,  // Variable pour stocker le message d'erreur
     };
   },
   methods: {
-    register() {
-      if (this.password !== this.confirmPassword) {
-        alert("Le mot de passe et la confirmation du mot de passe ne correspondent pas.");
-        return;
-      }
+    login() {
+      axios.post('http://localhost:3000/auth/login', {
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response)
+          this.updateAuthentication({
+            isAuthenticated: true,
+            username: this.username,
+          });          
+          this.$router.push('/');
+        })
+        .catch(error => {
+          console.log(error)
+          if (error.response) {
+            // Récupérer le message d'erreur de la réponse JSON
+            if (error.response.data && error.response.data.error) {
+              Swal.fire("Erreur !", error.response.data.error, "error");
+            } else {
+              Swal.fire("Erreur !", 'Une erreur inattendue s\'est produite.', "error");
+            }
+          } else if (error.request) {
+            // La requête a été faite, mais aucune réponse n'a été reçue
+            console.log(error.request);
+          } else {
+            // Une erreur s'est produite lors de la configuration de la requête
+            console.log('Error', error.message);
+          }
+          console.log(error.config); // La configuration de la requête qui a déclenché l'erreur
+        });
     },
   },
 };
 </script>
 
-<style scoped>
+<style scoped>/* Style pour le titre du message */
+
 .background {
   background-image: url('../assets/Louvre_Cour_Carree.jpg');
   background-size: cover;

@@ -1,32 +1,34 @@
 <template>
   <nav class="navbar">
     <div class="navbar-accueil">
-      <router-link class="navbar-link" to="/"><img src="../assets/logo-louvres.png" alt="Logo accueil louvres" id="logo_accueil">Accueil</router-link>
+      <router-link class="navbar-link" to="/" :class="{ 'active-link-accueil': currentRoute === '/' }"><img src="../assets/logo-louvres.png" alt="Logo accueil louvres" id="logo_accueil">Accueil</router-link>
     </div>
     <div class="navbar-links">
-      <router-link class="navbar-link" v-if="!authenticated" to="/search"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</router-link>
-      <router-link class="navbar-link" v-if="!authenticated" to="/login">Connexion</router-link>
-      <router-link class="navbar-link" v-if="!authenticated" to="/register">Inscription</router-link>
-      <router-link class="navbar-link" v-if="authenticated" to="/historique">Historique</router-link>
-      <button v-if="authenticated" @click="logout" class="logout-button">Déconnexion</button>
+      <router-link class="navbar-link" :class="{ 'active-link-search': currentRoute === '/search' }" to="/search"><img src="./../assets/search.png" alt=""> Rechercher</router-link>
+      <router-link class="navbar-link" v-if="!isAuthenticated" :class="{ 'active-link-login': currentRoute === '/login' }" to="/login">Connexion</router-link>
+      <router-link class="navbar-link" v-if="!isAuthenticated" :class="{ 'active-link-register': currentRoute === '/register' }" to="/register">Inscription</router-link>
+      <router-link class="navbar-link" v-if="isAuthenticated" :class="{ 'active-link-historique': currentRoute === '/historique' }" to="/historique">Historique</router-link>
+      <router-link v-if="isAuthenticated" :class="{ 'active-link-logout': currentRoute === '/login' }" @click="handleLogout" to="/login" id="logout">{{ username }} <img src="./../assets/icon-logout.png" alt=""></router-link> 
     </div>
   </nav>
 </template>
   
 <script>
 export default {
-  computed: {
-    authenticated() {
-      // Utilisez cette propriété calculée pour vérifier si l'utilisateur est authentifié.
-      // Par exemple, en vérifiant la présence d'un jeton d'authentification ou d'autres informations d'authentification.
-      // Renvoyez true si l'utilisateur est authentifié, sinon renvoyez false.
-      return false; // À personnaliser en fonction de votre logique d'authentification.
+  props: ['isAuthenticated', 'username'],
+  data() {
+    return {
+      currentRoute: '',
+    };
+  },
+  watch: {
+    '$route'(to) {
+      this.currentRoute = to.path;
     },
   },
   methods: {
-    logout() {
-      // Ajoutez ici la logique pour déconnecter l'utilisateur.
-      // Cela peut inclure l'effacement des informations d'authentification, la redirection vers la page de connexion, etc.
+    handleLogout() {
+      this.$emit('logout');
     },
   },
 };
@@ -49,6 +51,7 @@ export default {
 #navbar-accueil:hover {
   filter: invert(50%); /* Inverser les couleurs de l'image (de noir à blanc) */
 }
+
 .navbar {
   background-color: #004225; /* Couleur d'arrière-plan de la barre de navigation (personnalisez-la selon vos besoins) */
   color: #fff; /* Couleur du texte */
@@ -81,23 +84,40 @@ export default {
   font-size: 20px; /* Taille du texte des liens */
   transition: 0.3s; /* Ajout de la transition pour la couleur et la taille du texte */
 }
-
 .navbar-link:hover {
   color: #dcb253; /* Couleur du texte des liens au survol (personnalisez-la selon vos besoins) */
   font-size: 22px;
 }
 
-.logout-button {
-  background-color: transparent; /* Fond du bouton transparent */
-  border: none; /* Pas de bordure */
-  color: #fff; /* Couleur du texte du bouton */
-  font-size: 1rem; /* Taille du texte du bouton */
-  cursor: pointer; /* Curseur en forme de main au survol */
-  transition: background-color 0.3s, color 0.3s; /* Animation de transition de la couleur du texte et du fond du bouton */
+/* Permet de garder le style du hover sur le nom de la page dans la navbar, lorsqu'on est sur la page active  */
+/* le a. permet de donner la priorité à ce CSS */
+a.active-link-login, a.active-link-register, a.active-link-historique, a.active-link-logout, a.active-link-accueil, a.active-link-search {
+  color: #dcb253; /* Couleur du texte des liens au survol (personnalisez-la selon vos besoins) */
+  font-size: 22px;
+  transition: 0.3s; /* Ajout de la transition pour la couleur et la taille du texte */
 }
 
-.logout-button:hover {
-  background-color: #fff; /* Fond du bouton au survol (personnalisez-la selon vos besoins) */
-  color: #004F2D; /* Couleur du texte du bouton au survol (personnalisez-la selon vos besoins) */
+#logout img {
+  width: 25px;
+  height: 25px;
+  filter: invert(100%); /* Inverser les couleurs de l'image (de noir à blanc) */
+  margin-top: -3px;
+}
+#logout {
+  text-decoration: none;
+  color: #fff; /* Couleur du texte des liens */
+  font-size: 20px; /* Taille du texte des liens */
+  transition: 0.3s; 
+}
+#logout:hover {
+  color: #dcb253; /* Couleur du texte des liens au survol (personnalisez-la selon vos besoins) */
+}
+
+.navbar-link img {
+  color:#dcb253;
+  width: 25px;
+  height: 25px;
+  filter: invert(100%); /* Inverser les couleurs de l'image (de noir à blanc) */
+  margin-top: -3px;
 }
 </style>
