@@ -235,7 +235,7 @@ class MushroomPyApp(QFrame):
             self, "Ouvrir un fichier JSON", "", "Fichiers JSON (*.json)"
         )
         if filepath:
-            with open(filepath, "r") as file:
+            with open(filepath, "r", encoding="utf-8") as file:
                 json_data = json.load(file)
                 self.processJson(json_data)
 
