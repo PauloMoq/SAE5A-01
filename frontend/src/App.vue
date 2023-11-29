@@ -1,28 +1,37 @@
 <template>
   <div>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
-  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"/>
     <div id="app">
-    <Navbar />
-    <router-view />
+      <navbar :isAuthenticated="isAuthenticated" :username="username" @logout="logout" />
+      <router-view :updateAuthentication="updateAuthentication" />
+    </div>
   </div>
-  </div>
-  
-  
 </template>
 
 <script>
-import Navbar from './components/NavbarPage.vue';
-
-
+import Navbar from './components/NavbarPage.vue'; // Assurez-vous d'importer correctement le chemin du composant navbar
 
 export default {
   name: 'App',
   components: {
     Navbar,
   },
+  data() {
+    return {
+      isAuthenticated: false,
+      username: '',
+    };
+  },
+  methods: {
+    updateAuthentication({ isAuthenticated, username }) {
+      this.isAuthenticated = isAuthenticated;
+      this.username = username; // Mettez à jour l'username
+    },
+    logout() {
+      this.isAuthenticated = false;
+      this.username = '';
+    },
+  }
 };
 </script>
 

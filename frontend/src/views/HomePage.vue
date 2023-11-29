@@ -9,7 +9,7 @@
         </div>
 
         <div class="container-application">
-          <h4>Téléchargez notre application!</h4>
+          <h4><b>Téléchargez notre application</b></h4>
           <p>Notre application vous permettra de récupérer vos données à partir de votre fichier JSON.</p>
           <a href="https://github.com/Moquequette/SAE5A-01/raw/main/Appli_Python/MushRoomPy/MushRoomPy.exe" download="MushRoomPy.exe" id="button_dl">
             <img src="../assets/telecharger.png" alt="logo telecharger">
@@ -91,7 +91,7 @@ h1 {
 }
 
 #button_dl {
-  padding-top:10px ;
+  padding-top:12px ;
   display: block;
   border-radius: 7px;
   background-color: #dcb253;
@@ -102,6 +102,6 @@ h1 {
   margin-top: 25px;
   font-size: 18px;
   text-decoration: none;
-  color: white;
+  color: black;
 }
 </style>

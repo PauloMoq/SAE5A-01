@@ -9,6 +9,7 @@ const cors = require('cors');
 
 // Importation des routes définies dans le dossier 'routes'.
 var getObjectsRouter = require('./routes/getobjects');
+const authRoutes = require('./routes/authentificate'); 
 
 // Création de l'application Express.
 var app = express();
@@ -27,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));  // Middleware pour ser
 
 // Attribution des routes aux gestionnaires correspondants.
 app.use('/getObjects', getObjectsRouter);
+app.use('/auth', authRoutes);
+// app.use('/login', authRoutes);
 
 // Middleware pour gérer les erreurs 404 (non trouvées) et les rediriger vers le gestionnaire d'erreurs.
 app.use(function (req, res, next) {

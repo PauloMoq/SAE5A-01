@@ -64,10 +64,10 @@
         <div class="date-inputs">
           <h4 id="DateDebut" for="startDate">Année de début</h4>
           <img src="../assets/horloge.png" id="horloge1" alt="Icône horloge">
-          <input id="startDate" type="text" @input="updateStartDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*"> 
+          <input id="startDate" type="text" placeholder="1200" @input="updateStartDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*"> 
           <h4 id="DateFin" for="endDate">Année de fin</h4>
           <img src="../assets/horloge.png" id="horloge2" alt="Icône horloge">
-          <input id="endDate" type="text" @input="updateEndDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*">
+          <input id="endDate" type="text" placeholder="2023" @input="updateEndDate" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" pattern="[0-9]*">
 
         </div>
       </div>
@@ -111,28 +111,47 @@ export default {
     };
   },
   methods: {
+    // Cette version n'accepte qu'un seul filtre max par catégorie, si vous voulez en mettre plus, 
+    // enleve le deuxieme if des méthodes add et ajustez le reste du code. 
     addAuthor() {
       if (this.newAuthor.trim() !== '') {
-        this.selectedAuthors.push(this.newAuthor);
-        this.newAuthor = ''; // Réinitialisez la zone de texte
+        if (this.selectedAuthors.length < 1) { 
+          this.selectedAuthors.push(this.newAuthor);
+          this.newAuthor = ''; // Réinitialisez la zone de texte
+        } else {
+          alert('Vous ne pouvez ajouter qu\'un auteur.');
+        }
       }
     },
     addTitle() {
       if (this.newTitle.trim() !== '') {
-        this.selectedTitles.push(this.newTitle);
-        this.newTitle = ''; // Réinitialisez la zone de texte
+        if (this.selectedTitles.length < 1) {
+          this.selectedTitles.push(this.newTitle);
+          this.newTitle = ''; // Réinitialisez la zone de texte
+        } else {
+          alert('Vous ne pouvez ajouter qu\'un titre.');
+        }
       }
     },
     addSupport() {
       if (this.newSupport.trim() !== '') {
-        this.selectedSupports.push(this.newSupport);
-        this.newSupport = ''; // Réinitialisez la zone de texte
+        if (this.selectedSupports.length < 1) {
+          this.selectedSupports.push(this.newSupport);
+          this.newSupport = ''; // Réinitialisez la zone de texte
+        } else {
+          alert('Vous ne pouvez ajouter qu\'un support.');
+        }
       }
     },
+
     addRegion() {
       if (this.newRegion.trim() !== '') {
-        this.selectedRegions.push(this.newRegion);
-        this.newRegion = ''; // Réinitialisez la zone de texte
+        if (this.selectedRegions.length < 1) {
+          this.selectedRegions.push(this.newRegion);
+          this.newRegion = ''; // Réinitialisez la zone de texte
+        } else {
+          alert('Vous ne pouvez ajouter qu\'une région.');
+        }
       }
     },
     removeAuthor(author) {
@@ -171,12 +190,12 @@ export default {
         alert('Veuillez sélectionner au moins un auteur, un titre ou un support.');
         return;
       }
-
+      
       // construction de la requête avec les filtres
       // uniquement avec le 1er champ des filtres
       const query ={
-        "date_debut": this.startDate==undefined ? '' : this.startDate[0],
-        "date_fin": this.endDate==undefined ? '' : this.endDate[0],
+        "date_debut": this.startDate[0]==undefined ? '' : this.startDate[0],
+        "date_fin": this.endDate[0]==undefined ? '' : this.endDate[0],
         "artiste": this.selectedAuthors[0]==undefined ? '' : this.selectedAuthors[0],
         "zone_geo": this.selectedRegions[0]==undefined ? '' : this.selectedRegions[0],
         "support": this.selectedSupports[0]==undefined ? '' : this.selectedSupports[0],
