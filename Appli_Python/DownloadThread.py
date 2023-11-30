@@ -60,8 +60,12 @@ class DownloadThread(QThread):
                 break
 
             url = item["lien_oeuvre"]
-            response = requests.get(url)
-            image_data = response.content
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                image_data = response.content
+            except requests.exceptions.RequestException as e:
+                continue  # Ignore l'image si le lien n'est pas accessible
 
             nomfic = self.entry_text + "_"
             nomfic += item["auteur_oeuvre"] + "_" + item["date_oeuvre"] + "_"

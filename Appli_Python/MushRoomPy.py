@@ -55,7 +55,7 @@ class MushroomPyApp(QFrame):
         # Définition de la fenêtre
         self.setWindowTitle("MushroomPy")
         self.setGeometry(100, 100, 400, 200)
-        icon_path = "appli\icone.ico"
+        icon_path = "./Icone appli.ico"
         icon = QIcon(icon_path)
         self.setWindowIcon(icon)
         self.setStyleSheet(f"background-color: {self.backgroundColor.name()};")
