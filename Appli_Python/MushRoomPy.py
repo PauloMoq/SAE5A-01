@@ -247,7 +247,7 @@ class MushroomPyApp(QFrame):
         """
         for i in reversed(range(self.layout().count())):
             item = self.layout().itemAt(i)
-            if item.widget() and item.widget().text() == "Télécharger les images":
+            if item.widget() and item.widget().text() == "↓":
                 item.widget().deleteLater()
 
     def cancelDownload(self):
@@ -297,7 +297,7 @@ class MushroomPyApp(QFrame):
         if self.buttonDL is not None:
             self.buttonDL.deleteLater()  # Supprime le bouton de téléchargement précédent
 
-        self.buttonDL = QPushButton("Télécharger les images", self)
+        self.buttonDL = QPushButton("↓", self)
         self.buttonDL.clicked.connect(
             lambda: self.downloadImages(
                 json_data, os.path.join(self.destination, self.entry.text() + ".zip")
