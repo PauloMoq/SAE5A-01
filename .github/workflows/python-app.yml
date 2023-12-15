@@ -25,7 +25,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest pyqt6
+        pip install flake8 pytest pyqt6 requests  # Ajout de 'requests' ici
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
