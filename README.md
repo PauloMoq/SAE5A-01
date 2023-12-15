@@ -1,3 +1,4 @@
+[![Python Application Test](https://github.com/Moquequette/SAE5A-01/actions/workflows/python-app.yml/badge.svg)](https://github.com/Moquequette/SAE5A-01/actions/workflows/python-app.yml)
 # Bienvenue sur MushRoom Py
 
 ![MushRoom Py](https://raw.githubusercontent.com/Moquequette/SAE5A-01/main/Img/Logo.jpg)
