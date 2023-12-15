@@ -24,4 +24,4 @@ jobs:
 
     - name: Run test
       run: |
-        python Appli_Python/test_download_thread.py
+        python Appli_Python/test_downloadThread.py
