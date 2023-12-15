@@ -31,8 +31,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest ./Appli_Python
-    - name: Run application
-      run: |
-        python TUmushRoomPy.py
-        python TUdownloadThread.py
+        python /home/runner/work/SAE5A-01/Appli_Python/TUmushRoomPy.py
+        python /home/runner/work/SAE5A-01/Appli_Python/TUdownloadThread.py
